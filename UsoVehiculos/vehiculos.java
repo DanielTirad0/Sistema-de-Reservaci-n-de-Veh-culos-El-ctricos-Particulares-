@@ -1,13 +1,13 @@
 package UsoVehiculos;
 
-public class vehiculos {
+public class Vehiculos {
 
     private int id;
     private String vehiculo;
     private String lugar;
 
 //contructor
-vehiculos(int id,String vehiculo,String lugar){
+Vehiculos(int id,String vehiculo,String lugar){
 this.id=id;
 this.vehiculo=vehiculo;
 this.lugar=lugar;

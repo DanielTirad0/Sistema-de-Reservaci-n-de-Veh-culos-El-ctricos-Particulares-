@@ -1,6 +1,6 @@
 package UsoVehiculos;
 
-public class usuario {
+public class Usuario {
     private int numerodeestudinte;
     private String name;
     private String email;
@@ -8,7 +8,7 @@ public class usuario {
 
     //contructor
 
-    usuario(int numerodeestudinte, String name, String email, String telefono){
+    Usuario(int numerodeestudinte, String name, String email, String telefono){
         this.numerodeestudinte=numerodeestudinte;
         this.name=name;
         this.email=email;
