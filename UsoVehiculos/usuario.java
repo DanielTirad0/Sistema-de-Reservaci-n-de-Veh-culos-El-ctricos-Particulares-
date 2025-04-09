@@ -42,4 +42,5 @@ public class usuario {
     public void setTelefono(String telefono){
         this.telefono=telefono; 
     }
+    //methods
 }
