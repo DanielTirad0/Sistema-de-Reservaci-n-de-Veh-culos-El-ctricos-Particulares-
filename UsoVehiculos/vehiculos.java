@@ -4,10 +4,10 @@ public class Vehiculos {
 
     private int id;
     private String vehiculo;
-    private String lugar;
+    private Estacion lugar;
 
 //contructor
-Vehiculos(int id,String vehiculo,String lugar){
+Vehiculos(int id,String vehiculo,Estacion lugar){
 this.id=id;
 this.vehiculo=vehiculo;
 this.lugar=lugar;
@@ -15,16 +15,17 @@ this.lugar=lugar;
 
 //getter
 public int getId(){
-    return id;
+    return this.id;
 }
 
 public String getVehiculo(){
-    return vehiculo;
+    return this.vehiculo;
 }
 
-public String getLugar(){
-    return lugar;
+public Estacion getLugar(){
+    return this.lugar;
 }
+
 
 //setter
 
@@ -35,7 +36,7 @@ public void setVehiculos(String vehiculos){
     this.vehiculo=vehiculos;
 }
 
-public void setLugar(String lugar){
+public void setLugar(Estacion lugar){
     this.lugar=lugar;
 }
 //methods

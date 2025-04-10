@@ -24,18 +24,18 @@ public class Estacion {
     //Getters
 
     public int getCapacidad() {
-        return capacidad;
+        return this.capacidad;
     }
 
     public String getUbicacion() {
-        return ubicacion;
+        return this.ubicacion;
     }
 
     public Set<Vehiculos> getVehiculos() {
-        return vehiculos;
+        return this.vehiculos;
     }
 
     public List<Reservaciones> getReservaciones() {
-        return reservaciones;
+        return this.reservaciones;
     }
 }
