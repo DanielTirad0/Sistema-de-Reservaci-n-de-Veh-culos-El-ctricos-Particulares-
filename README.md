@@ -5,6 +5,7 @@ Integrantes:
 3. 
 
 distribucion de tareas:
-Daniel Tirado: crear clase de usuario, crear clase de vehiculos, crear file de main, idea principal de las opciones en main.
+Daniel Tirado: crear clase de usuario, crear clase de vehiculos, crear file de main, idea principal de las opciones en main,
+metodo de agregar,eliminar, y mostrar.
 
 

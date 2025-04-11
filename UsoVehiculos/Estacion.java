@@ -3,6 +3,7 @@ package UsoVehiculos;
 import java.util.Set;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.HashSet;
 
 
@@ -12,6 +13,7 @@ public class Estacion {
     private int capacidad;   
     private Set<Vehiculos> vehiculos;
     private List<Reservaciones> reservaciones;
+    static HashSet<Estacion> estaciones= new HashSet<>();
 
     public Estacion(String ubicacion, int capacidad) {
 
@@ -19,8 +21,8 @@ public class Estacion {
         this.capacidad= capacidad;
         this.vehiculos= new HashSet<>();
         this.reservaciones= new LinkedList<>();
+    
     }
-
     //Getters
 
     public int getCapacidad() {
@@ -38,4 +40,38 @@ public class Estacion {
     public List<Reservaciones> getReservaciones() {
         return this.reservaciones;
     }
+    //methods
+    static {
+        estaciones.add(new Estacion("Edificio Stefani", 40));
+        estaciones.add(new Estacion("Centro de Estudiantes", 90));
+        estaciones.add(new Estacion("Edificio de Biología", 35));
+        estaciones.add(new Estacion("Edificio Ingeniería Química", 45));
+        estaciones.add(new Estacion("Edificio de Administración de Empresas ", 45));
+    }
+    
+    public static Estacion escogaestacion() {
+    Scanner sc = new Scanner(System.in);
+    int index = 1;
+    System.out.println("Por favor, elija una estación:");
+    for (Estacion estacion : estaciones) {
+        System.out.println(index + ". " + estacion.getUbicacion() + " (Capacidad: " + estacion.getCapacidad() + ")");
+        index++;
+    }
+    int choice = sc.nextInt();
+    while(choice < 1 || choice > estaciones.size()) {
+        System.out.println("Opción no válida. Intente de nuevo.");
+        choice = sc.nextInt();}
+    if (choice > 0 && choice <= estaciones.size()) {
+        int i = 1;
+        for (Estacion estacion : estaciones) {
+            if (i == choice) {
+                return estacion;
+            }
+            i++;
+        }
+    }
+    
+    return null;
 }
+}
+

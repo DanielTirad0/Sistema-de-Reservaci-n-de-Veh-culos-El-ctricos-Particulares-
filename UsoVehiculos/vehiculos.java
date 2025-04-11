@@ -45,17 +45,29 @@ public void setLugar(Estacion lugar){
 }
  
 //methods
+
 public static void Agregar() {
     System.out.println("¿Cuántos vehículos desea agregar?");
     int cantidad = sc.nextInt();
     for (int i = 0; i < cantidad; i++) {
         System.out.println("Ingrese el ID del vehículo: ");
         int id = sc.nextInt();
-        System.out.println("Ingrese el nombre del vehículo: ");
-        String vehiculo = sc.next();
-        System.out.println("Ingrese la estación del vehículo: ");
-        String estacion = sc.next();
-        Estacion lugar = new Estacion(estacion, 10);
+        System.out.println("Escoja el tipo de vehículo: ");
+        System.out.println("1. Bicicleta\n2. Scooter\n3. Patineta\n");
+        int tipo = sc.nextInt();
+        String vehiculo = null;
+       while(tipo<1 || tipo>3){
+            System.out.println("Opcion no valida, por favor intente de nuevo.");
+            tipo = sc.nextInt();
+        }
+        if(tipo==1){
+            vehiculo="Bicicleta";
+        }else if(tipo==2){
+            vehiculo="Scooter";
+        }else if(tipo==3){
+            vehiculo="Patineta";
+        } 
+        Estacion lugar = Estacion.escogaestacion();
         Vehiculos vehiculo1 = new Vehiculos(id, vehiculo, lugar);
         if (vehiculos.add(vehiculo1)) {
             System.out.println("Vehículo agregado con éxito.");
@@ -69,7 +81,7 @@ public static void Eliminar(){
     System.out.println("Ingrese el ID del vehiculo a eliminar: ");
     int id= sc.nextInt();
     for (Vehiculos vehiculo: vehiculos){
-        if (vehiculo.getId()==id){
+    if (vehiculo.getId()==id){
             vehiculos.remove(vehiculo);
             System.out.println("Vehiculo eliminado con exito");
             return;
@@ -79,7 +91,7 @@ public static void Eliminar(){
 }
 public static void Mostrar(){
     for (Vehiculos vehiculo: vehiculos){
-        System.out.println("ID: "+vehiculo.getId()+" Vehiculo: "+vehiculo.getVehiculo()+" Estacion: "+vehiculo.getLugar().getUbicacion());
+    System.out.println("ID: "+vehiculo.getId()+" Vehiculo: "+vehiculo.getVehiculo()+" Estacion: "+vehiculo.getLugar().getUbicacion());
     }
 }
 }
