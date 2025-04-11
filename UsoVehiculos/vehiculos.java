@@ -45,7 +45,19 @@ public void setLugar(Estacion lugar){
 }
  
 //methods
+// Override equals and hashCode
+@Override
+public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    Vehiculos vehiculo = (Vehiculos) obj;
+    return id == vehiculo.id;
+}
 
+@Override
+public int hashCode() {
+    return Integer.hashCode(id);
+}
 public static void Agregar() {
     System.out.println("¿Cuántos vehículos desea agregar?");
     int cantidad = sc.nextInt();
