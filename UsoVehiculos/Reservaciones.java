@@ -129,4 +129,8 @@ public class Reservaciones {
     System.out.println("--------------------------------------");
     }
 
+    public static void Eliminar() {
+        
+    }
+
 }
