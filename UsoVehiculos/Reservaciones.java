@@ -130,7 +130,13 @@ public class Reservaciones {
     }
 
     public static void Eliminar() {
-        
+
+        System.out.println("----- Vehículos reservados -----");
+
+        for (Usuario usuario : reservas.keySet()) {
+            Vehiculos vehiculos = reservas.get(usuario);
+            System.out.println("Usuario: " + usuario.getName() + ", Vehículo: " + vehiculos.getVehiculo());
+        }
     }
 
 }

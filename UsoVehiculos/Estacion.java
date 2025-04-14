@@ -57,9 +57,12 @@ public class Estacion {
         System.out.println(index + ". " + estacion.getUbicacion() + " (Capacidad: " + estacion.getCapacidad() + ")");
         index++;
     }
+
+    System.out.print("\nOpción: ");
     int choice = sc.nextInt();
     while(choice < 1 || choice > estaciones.size()) {
         System.out.println("Opción no válida. Intente de nuevo.");
+        System.out.println("\n--------------------------------------");
         choice = sc.nextInt();}
     if (choice > 0 && choice <= estaciones.size()) {
         int i = 1;

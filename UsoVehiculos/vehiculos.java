@@ -68,17 +68,18 @@ public int hashCode() {
     return Integer.hashCode(id);
 }
 public static void Agregar() {
-    System.out.println("¿Cuántos vehículos desea agregar?");
+    System.out.print("\n¿Cuántos vehículos desea agregar? ");
     int cantidad = sc.nextInt();
     for (int i = 0; i < cantidad; i++) {
-        System.out.println("Ingrese el ID del vehículo: ");
+        System.out.println("\n--------------------------------------");
+        System.out.print("Ingrese el ID del vehículo: ");
         int id = sc.nextInt();
-        System.out.println("Escoja el tipo de vehículo: ");
-        System.out.println("1. Bicicleta\n2. Scooter\n3. Patineta\n");
+        System.out.println("\nSeleccione el tipo de vehículo: ");
+        System.out.print("1. Bicicleta\n2. Scooter\n3. Skateboard\nOpción: ");
         int tipo = sc.nextInt();
         String vehiculo = null;
        while(tipo<1 || tipo>3){
-            System.out.println("Opcion no valida, por favor intente de nuevo.");
+            System.out.println("\nOpcion no valida, por favor intente de nuevo.");
             tipo = sc.nextInt();
         }
         if(tipo==1){
@@ -86,34 +87,45 @@ public static void Agregar() {
         }else if(tipo==2){
             vehiculo="Scooter";
         }else if(tipo==3){
-            vehiculo="Patineta";
+            vehiculo="Skateboard";
         } 
+
+        System.out.println("\n--------------------------------------");
         Estacion lugar = Estacion.escogaestacion();
         Vehiculos vehiculo1 = new Vehiculos(id, vehiculo, lugar);
         if (vehiculos.add(vehiculo1)) {
             lugar.getVehiculos().add(vehiculo1);
             System.out.println("Vehículo agregado con éxito.");
+            System.out.println("--------------------------------------");
         } else {
             System.out.println("El vehículo con ID " + id + " ya existe y no se puede agregar.");
+            System.out.println("--------------------------------------");
         }
     }
 }
 
-public static void Eliminar(){
-    System.out.println("Ingrese el ID del vehiculo a eliminar: ");
-    int id= sc.nextInt();
-    for (Vehiculos vehiculo: vehiculos){
-    if (vehiculo.getId()==id){
+public static void Eliminar() {
+    System.out.println("\n--------------------------------------");
+    System.out.print("Ingrese el ID del vehículo a eliminar: ");
+    int id = sc.nextInt();
+
+    for (Vehiculos vehiculo : vehiculos) {
+        if (vehiculo.getId() == id) {
             vehiculos.remove(vehiculo);
-            System.out.println("Vehiculo eliminado con exito");
+            vehiculo.getLugar().getVehiculos().remove(vehiculo); // Eliminar también de la estación
+            System.out.println("Vehículo con ID " + id + " eliminado con éxito.");
+            System.out.println("--------------------------------------\n");
             return;
         }
     }
-    System.out.println("Vehiculo no encontrado");
+
+    System.out.println("No se encontró ningún vehículo con el ID " + id + ".");
+    System.out.println("--------------------------------------");
 }
+
 public static void Mostrar(){
     for (Vehiculos vehiculo: vehiculos){
-    System.out.println("ID: "+vehiculo.getId()+" Vehiculo: "+vehiculo.getVehiculo()+" Estacion: "+vehiculo.getLugar().getUbicacion());
+    System.out.println("ID: "+vehiculo.getId()+" Vehiculo: "+ vehiculo.getVehiculo()+" Estacion: "+vehiculo.getLugar().getUbicacion());
     }
 }
 }
