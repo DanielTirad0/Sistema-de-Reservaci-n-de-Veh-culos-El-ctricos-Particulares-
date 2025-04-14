@@ -73,5 +73,26 @@ public class Estacion {
     
     return null;
 }
+
+    public static void vehiculosEnLaEstacion(Estacion ubicacion) {
+
+        System.out.println("Estación seleccionada: " + ubicacion.getUbicacion());
+        System.out.println("Vehículos disponibles en esta estación:");
+    
+        Set<Vehiculos> vehiculos = ubicacion.getVehiculos();
+    
+        if (vehiculos.isEmpty()) {
+            System.out.println("No hay vehículos disponibles en esta estación.");
+        } else {
+            for (Vehiculos vehiculo : vehiculos) {
+                String estado = vehiculo.getEstado() ? "Reservado" : "Disponible";
+                System.out.println("- ID: " + vehiculo.getId() + ", Tipo: " + vehiculo.getVehiculo() + ", Estado: " + estado);
+            }
+        }
+
+    }
+
+
 }
+
 

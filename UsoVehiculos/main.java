@@ -9,7 +9,7 @@ public class main {
         System.out.println("Bienvenido a la estacion de reservacion de vehiculos");
         while(finalizado!=true){
   
-     System.out.println(" por favor elija una opcion: ");
+     System.out.println("Por favor elija una opcion: " + "\n" );
      System.out.println("1. Agregar o Eliminar Vehiculos");
      System.out.println("2. Agregar o Eliminar Usuarios");
      System.out.println("3. Agregar o Eliminar Reservaciones");
@@ -37,9 +37,22 @@ public class main {
             System.out.println("Opcion no valida, por favor intente de nuevo.");
          }
      }
+
+     if (press==3) {
+      int press2=0;
+      System.out.println("1. Añadir reservación: ");
+      System.out.println("2. Eliminar reservación: ");  
+      press2= sc.nextInt();  
+      
+      if (press2==1) Reservaciones.Agregar();
+     }
+
+     if (press == 5) Reservaciones.mostrarTodasLasReservaciones();
+
      if(press==7){
         Vehiculos.Mostrar();
      }
+
      if (press==10){
         finalizado=true;
         System.out.println("Gracias por usar nuestro servicio, hasta luego.");

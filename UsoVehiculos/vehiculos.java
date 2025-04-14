@@ -7,6 +7,7 @@ public class Vehiculos {
     private int id;
     private String vehiculo;
     private Estacion lugar;
+    private boolean reservado;
     static HashSet<Vehiculos> vehiculos= new HashSet<>();
     static Scanner sc=new Scanner(System.in);
 
@@ -30,6 +31,10 @@ public Estacion getLugar(){
     return this.lugar;
 }
 
+public boolean getEstado() {
+    return this.reservado;
+}
+
 
 //setter
 
@@ -42,6 +47,10 @@ public void setVehiculos(String vehiculos){
 
 public void setLugar(Estacion lugar){
     this.lugar=lugar;
+}
+
+public void setEstado(boolean reservacion) {
+    this.reservado=reservacion;
 }
  
 //methods
@@ -82,6 +91,7 @@ public static void Agregar() {
         Estacion lugar = Estacion.escogaestacion();
         Vehiculos vehiculo1 = new Vehiculos(id, vehiculo, lugar);
         if (vehiculos.add(vehiculo1)) {
+            lugar.getVehiculos().add(vehiculo1);
             System.out.println("Vehículo agregado con éxito.");
         } else {
             System.out.println("El vehículo con ID " + id + " ya existe y no se puede agregar.");

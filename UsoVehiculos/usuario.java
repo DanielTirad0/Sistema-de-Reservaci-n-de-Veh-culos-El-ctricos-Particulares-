@@ -5,14 +5,16 @@ public class Usuario {
     private String name;
     private String email;
     private String telefono;
+    private int saldo;
 
     //contructor
 
-    Usuario(int numerodeestudinte, String name, String email, String telefono){
+    Usuario(int numerodeestudinte, String name, String email, String telefono, int saldo){
         this.numerodeestudinte=numerodeestudinte;
         this.name=name;
         this.email=email;
         this.telefono=telefono;
+        this.saldo=saldo;
     }
 
     //getters
@@ -29,6 +31,9 @@ public class Usuario {
     public String getTelefono(){
     return this.telefono;
     }
+    public int getSaldo(){
+        return this.saldo;
+    }
     //setters
     public void setNumeroDeEstudiante(int id){
         this.numerodeestudinte=id; 
@@ -41,6 +46,9 @@ public class Usuario {
     }
     public void setTelefono(String telefono){
         this.telefono=telefono; 
+    } 
+    public void setSaldo(int saldo){
+        this.saldo=saldo; 
     }
     //methods
 }
