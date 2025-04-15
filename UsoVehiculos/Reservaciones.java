@@ -60,52 +60,102 @@ public class Reservaciones {
         
     }
 
-  public static void Agregar() {
-    System.out.print("Introduzca su nombre: ");
-    String name= input.nextLine();
-
-    System.out.print("Introduzca su número de estudiante: ");
-    int numEstudiante= input.nextInt();
-    input.nextLine();
-
-    System.out.print("Introduzca su email: ");
-    String email= input.nextLine();
-
-    System.out.print("Introduzca su numero de teléfono: ");
-    String numTelefono= input.nextLine();
-
-    Usuario persona= new Usuario(numEstudiante, name, email, numTelefono, 10);
-
-    System.out.println("En cual estación desea hacer la reserva: ");
-    Estacion estacionSeleccionada= Estacion.escogaestacion();
-
-    Estacion.vehiculosEnLaEstacion(estacionSeleccionada);
-    System.out.print("Introduzca el ID del vehículo que desea: ");
-    int idSeleccionado= input.nextInt();
-    input.nextLine();
-
-
-    Vehiculos vehiculoSeleccionado= null;
-    for (Vehiculos vehiculo: estacionSeleccionada.getVehiculos()) {
-        if (vehiculo.getId() == idSeleccionado) {
-            vehiculoSeleccionado= vehiculo;
-            break;
+    public static void Agregar() {
+        try {
+            System.out.print("\nIntroduzca su nombre: ");
+            String name = input.nextLine();
+    
+            int numEstudiante = 0;
+            while (true) {
+                try {
+                    System.out.print("Introduzca su número de estudiante: ");
+                    numEstudiante = input.nextInt();
+                    input.nextLine();
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Por favor, introduzca un número válido.");
+                    input.nextLine();
+                }
+            }
+    
+            System.out.print("Introduzca su email: ");
+            String email = input.nextLine();
+    
+            System.out.print("Introduzca su número de teléfono: ");
+            String numTelefono = input.nextLine();
+    
+            Usuario persona = new Usuario(numEstudiante, name, email, numTelefono, 10);
+    
+            boolean todasVacias = true;
+            for (Estacion estacion : Estacion.estaciones) {
+                if (!estacion.getVehiculos().isEmpty()) {
+                    todasVacias = false;
+                    break;
+                }
+            }
+    
+            if (todasVacias) {
+                System.out.println("No hay vehículos disponibles en ninguna estación. Intente más tarde.");
+                return; 
+            }
+    
+            Estacion estacionSeleccionada = null;
+    
+            while (true) {
+                System.out.println("\n¿En cuál estación desea hacer la reserva?\n");
+                estacionSeleccionada = Estacion.escogaestacion();
+    
+                Estacion.vehiculosEnLaEstacion(estacionSeleccionada);
+    
+                if (estacionSeleccionada.getVehiculos().isEmpty()) {
+                    System.out.println("No hay vehículos disponibles en esta estación. Intente con otra estación.");
+                } else {
+                    break; 
+                }
+            }
+    
+            int idSeleccionado = 0;
+            while (true) {
+                try {
+                    System.out.print("\nIntroduzca el ID del vehículo que desea: ");
+                    idSeleccionado = input.nextInt();
+                    input.nextLine();
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Por favor, introduzca un número válido.");
+                    input.nextLine();
+                }
+            }
+    
+            Vehiculos vehiculoSeleccionado = null;
+            for (Vehiculos vehiculo : estacionSeleccionada.getVehiculos()) {
+                if (vehiculo.getId() == idSeleccionado) {
+                    vehiculoSeleccionado = vehiculo;
+                    break;
+                }
+            }
+    
+            if (vehiculoSeleccionado == null) {
+                System.out.println("Vehículo no encontrado en esta estación.");
+                return;
+            }
+    
+            if (!vehiculoSeleccionado.getEstado()) {
+                vehiculoSeleccionado.setEstado(true);
+                System.out.println("Reservación exitosa.");
+                Reservaciones reservacion = new Reservaciones("Pendiente", vehiculoSeleccionado, estacionSeleccionada, persona, 0.0, 0.0);
+                historialDeReservaciones.add(reservacion);
+                reservas.put(persona, vehiculoSeleccionado);
+            } else {
+                System.out.println("El vehículo seleccionado ya ha sido reservado.");
+            }
+    
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error inesperado. Intente de nuevo.");
+            input.nextLine();
         }
     }
-
-    if (vehiculoSeleccionado.getEstado() == false) {
-        vehiculoSeleccionado.setEstado(true);
-        System.out.println("Reservación exitosa");
-        Reservaciones reservacion = new Reservaciones("Pendiente", vehiculoSeleccionado, estacionSeleccionada, persona, 0.0, 0.0);
-        historialDeReservaciones.add(reservacion);
-
-        reservas.put(persona, vehiculoSeleccionado);
-    }
-
-    else {
-        System.out.println("El vehículo seleccionado ya ha sido reservado");
-    }
-  }  
+    
 
   public static void mostrarTodasLasReservaciones() {
     if (historialDeReservaciones.isEmpty()) {
@@ -131,12 +181,56 @@ public class Reservaciones {
 
     public static void Eliminar() {
 
-        System.out.println("----- Vehículos reservados -----");
+        System.out.println("\n----- Vehículos reservados -----\n");
 
-        for (Usuario usuario : reservas.keySet()) {
-            Vehiculos vehiculos = reservas.get(usuario);
-            System.out.println("Usuario: " + usuario.getName() + ", Vehículo: " + vehiculos.getVehiculo());
+        if (reservas.isEmpty()) {
+            System.out.print("No hay vehículos reservados actualmente.\n");
         }
+
+        else {
+            for (Usuario usuario : reservas.keySet()) {
+                Vehiculos vehiculos = reservas.get(usuario);
+                System.out.println("Usuario: " + usuario.getName() + ", Vehículo: " + vehiculos.getVehiculo() + ", ID: " + vehiculos.getId());
+            }
+
+            try {
+                System.out.println("\n¿Cuál reservación desea eliminar?");
+                System.out.print("Introduzca el ID: ");
+                int idVehiculoEliminado= input.nextInt();
+
+                Usuario usuarioAEliminar = null;
+                Vehiculos vehiculoActualizado = null;
+                for (Usuario usuario : reservas.keySet()) {
+                    Vehiculos vehiculo = reservas.get(usuario);
+                    if (vehiculo.getId() == idVehiculoEliminado) {
+                        usuarioAEliminar = usuario;
+                        vehiculoActualizado	= vehiculo;
+                        break;
+                    }
+                }
+
+                if (usuarioAEliminar != null && vehiculoActualizado != null) {
+                    vehiculoActualizado.setEstado(false);
+                    for (Reservaciones reservacion : historialDeReservaciones) {
+                        if (reservacion.getUsuario().equals(usuarioAEliminar) && reservacion.getVehiculo().equals(vehiculoActualizado)) {
+                            reservacion.estado = "Cancelado";
+                            break;
+                        }
+                    }
+
+                    reservas.remove(usuarioAEliminar);
+                    System.out.println("Reservación eliminada exitosamente. El vehículo ahora está disponible para reservar.");
+                } else {
+                    System.out.println("No se encontró una reservación con el ID proporcionado.");
+                }
+    
+            }
+    
+            catch (Exception e) {
+                System.out.print("Introduzca un ID válido.\n");
+            }
+        }
+
     }
 
 }

@@ -46,7 +46,7 @@ public class Estacion {
         estaciones.add(new Estacion("Centro de Estudiantes", 90));
         estaciones.add(new Estacion("Edificio de Biología", 35));
         estaciones.add(new Estacion("Edificio Ingeniería Química", 45));
-        estaciones.add(new Estacion("Edificio de Administración de Empresas ", 45));
+        estaciones.add(new Estacion("Edificio de Administración de Empresas", 45));
     }
     
     public static Estacion escogaestacion() {
@@ -62,7 +62,7 @@ public class Estacion {
     int choice = sc.nextInt();
     while(choice < 1 || choice > estaciones.size()) {
         System.out.println("Opción no válida. Intente de nuevo.");
-        System.out.println("\n--------------------------------------");
+        System.out.print("Opción: ");
         choice = sc.nextInt();}
     if (choice > 0 && choice <= estaciones.size()) {
         int i = 1;
@@ -79,13 +79,15 @@ public class Estacion {
 
     public static void vehiculosEnLaEstacion(Estacion ubicacion) {
 
+        System.out.println("--------------------------------------");
         System.out.println("Estación seleccionada: " + ubicacion.getUbicacion());
-        System.out.println("Vehículos disponibles en esta estación:");
+        System.out.println("Vehículos disponibles en esta estación:\n");
     
         Set<Vehiculos> vehiculos = ubicacion.getVehiculos();
     
         if (vehiculos.isEmpty()) {
-            System.out.println("No hay vehículos disponibles en esta estación.");
+            return;
+
         } else {
             for (Vehiculos vehiculo : vehiculos) {
                 String estado = vehiculo.getEstado() ? "Reservado" : "Disponible";
