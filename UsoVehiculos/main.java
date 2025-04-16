@@ -44,6 +44,20 @@ public class main {
                     else System.out.println("Opción no válida. Intente de nuevo.");
                     break;
 
+                case 2:
+                    System.out.println("\nGestión de Usuarios");
+                    System.out.println("--------------------------------------");
+                    System.out.println("1. Agregar Usuario");
+                    System.out.println("2. Eliminar Usuario");
+                    System.out.println("--------------------------------------");
+                    System.out.print("Seleccione una opción: ");
+                    int opcionUsuario = sc.nextInt();
+
+                    if (opcionUsuario == 1) Usuario.AgregarUsuario();
+                    else if (opcionUsuario == 2) Usuario.EliminarUsuario();
+                    else System.out.println("Opción no válida. Intente de nuevo.");
+                    break;    
+
                 case 3:
                     System.out.println("\nGestión de Reservaciones");
                     System.out.println("--------------------------------------");
@@ -62,6 +76,10 @@ public class main {
                     System.out.println("\nMostrando Reservaciones");
                     Reservaciones.mostrarTodasLasReservaciones();
                     break;
+                case 6:
+                    System.out.println("\nMostrando Usuarios");
+                    Usuario.MostrarUsuario();
+                    break;    
 
                 case 7:
                     System.out.println("\nMostrando Vehículos");
