@@ -62,29 +62,33 @@ public class Reservaciones {
 
     public static void Agregar() {
         try {
-            System.out.print("\nIntroduzca su nombre: ");
-            String name = input.nextLine();
+            System.out.println("\n----- Reservación de Vehículos -----\n");
     
-            int numEstudiante = 0;
-            while (true) {
-                try {
-                    System.out.print("Introduzca su número de estudiante: ");
-                    numEstudiante = input.nextInt();
-                    input.nextLine();
+            System.out.println("Usuarios disponibles:");
+            if (Usuario.usuarios.isEmpty()) {
+                System.out.println("No hay usuarios registrados. Por favor, registre un usuario antes de hacer una reservación.");
+                return;
+            }
+            for (Usuario usuario : Usuario.usuarios) {
+                System.out.println("Número de Estudiante: " + usuario.getNumeroDeEstudiante() + ", Nombre: " + usuario.getName());
+            }
+    
+            System.out.print("\nIngrese el número de estudiante del usuario que hará la reservación: ");
+            int numeroDeEstudiante = input.nextInt();
+            input.nextLine(); 
+    
+            Usuario persona = null;
+            for (Usuario usuario : Usuario.usuarios) {
+                if (usuario.getNumeroDeEstudiante() == numeroDeEstudiante) {
+                    persona = usuario;
                     break;
-                } catch (Exception e) {
-                    System.out.println("Por favor, introduzca un número válido.");
-                    input.nextLine();
                 }
             }
     
-            System.out.print("Introduzca su email: ");
-            String email = input.nextLine();
-    
-            System.out.print("Introduzca su número de teléfono: ");
-            String numTelefono = input.nextLine();
-    
-            Usuario persona = new Usuario(numEstudiante, name, email, numTelefono, 10);
+            if (persona == null) {
+                System.out.println("No se encontró un usuario con el número de estudiante proporcionado.");
+                return;
+            }
     
             boolean todasVacias = true;
             for (Estacion estacion : Estacion.estaciones) {
@@ -96,11 +100,11 @@ public class Reservaciones {
     
             if (todasVacias) {
                 System.out.println("No hay vehículos disponibles en ninguna estación. Intente más tarde.");
-                return; 
+                return;
             }
     
             Estacion estacionSeleccionada = null;
-    
+
             while (true) {
                 System.out.println("\n¿En cuál estación desea hacer la reserva?\n");
                 estacionSeleccionada = Estacion.escogaestacion();

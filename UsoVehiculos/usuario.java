@@ -56,7 +56,7 @@ public class Usuario {
     //methods
 
     static void MostrarUsuario(){
-        if(usuarios.isEmpty()){ System.out.println("no hay usuarios disponibles");}
+        if(usuarios.isEmpty()){ System.out.println("No hay usuarios disponibles");}
         for(Usuario usuario:usuarios){
         System.out.println(usuario.getEmail());
         System.out.println(usuario.getName());
@@ -68,51 +68,72 @@ public class Usuario {
         
       }  
 
-      static void AgregarUsuario() {
-        int add = 0;
-        Scanner sc = new Scanner(System.in);
-        System.out.println("¿Cuántos usuarios desea agregar?");
-        add = sc.nextInt();
-        for (int i = 0; i < add; i++) {
-            System.out.println("Ingrese el número de estudiante:");
-            int numerodeestudinte = sc.nextInt();
+      static Usuario AgregarUsuario() {
+        Usuario usuario = null;
+        try {
+            Scanner sc = new Scanner(System.in);
+            System.out.print("¿Cuántos usuarios desea agregar? ");
+            int add = sc.nextInt();
             sc.nextLine();
-            System.out.println("Ingrese el nombre del usuario:");
-            String name = sc.nextLine();
-            System.out.println("Ingrese el email del usuario:");
-            String email = sc.nextLine();
-            System.out.println("Ingrese el teléfono del usuario:");
-            String telefono = sc.nextLine();
-            System.out.println("Ingrese el saldo del usuario:");
-            int saldo = sc.nextInt();
     
-            Usuario usuario = new Usuario(numerodeestudinte, name, email, telefono, saldo);
-            if (usuarios.add(usuario)) {
-                System.out.println("Usuario agregado con éxito.");
-            } else {
-                System.out.println("El usuario con número de estudiante " + numerodeestudinte + " ya existe.");
+            for (int i = 0; i < add; i++) {
+                System.out.print("Ingrese el número de estudiante: ");
+                int numerodeestudinte = sc.nextInt();
+                sc.nextLine();
+    
+                System.out.print("Ingrese el nombre del usuario: ");
+                String name = sc.nextLine();
+    
+                System.out.print("Ingrese el email del usuario: ");
+                String email = sc.nextLine();
+    
+                System.out.print("Ingrese el teléfono del usuario: ");
+                String telefono = sc.nextLine();
+    
+                System.out.print("Ingrese el saldo del usuario: ");
+                int saldo = sc.nextInt();
+                sc.nextLine();
+    
+                usuario = new Usuario(numerodeestudinte, name, email, telefono, saldo);
+                if (usuarios.add(usuario)) {
+                    System.out.println("Usuario agregado con éxito.");
+                } else {
+                    System.out.println("El usuario con número de estudiante " + numerodeestudinte + " ya existe.");
+                }
             }
+        } catch (Exception e) {
+            System.out.println("Error al agregar el usuario. Por favor, intente de nuevo.");
         }
+    
+        return usuario;
     }
+    
 
-    static void EliminarUsuario(){
+    static void EliminarUsuario() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Ingrese el número de estudiante del usuario a eliminar:");
-        int numerodeestudinte = sc.nextInt();
-        Usuario usuarioAEliminar = null;
-        for (Usuario usuario : usuarios) {
-            if (usuario.getNumeroDeEstudiante() == numerodeestudinte) {
-                usuarioAEliminar = usuario;
-                break;
+        try {
+            System.out.print("Ingrese el número de estudiante del usuario a eliminar: ");
+            int numerodeestudinte = sc.nextInt();
+            Usuario usuarioAEliminar = null;
+    
+            for (Usuario usuario : usuarios) {
+                if (usuario.getNumeroDeEstudiante() == numerodeestudinte) {
+                    usuarioAEliminar = usuario;
+                    break;
+                }
             }
-        }
-        if (usuarioAEliminar != null) {
-            usuarios.remove(usuarioAEliminar);
-            System.out.println("Usuario eliminado con éxito.");
-        } else {
-            System.out.println("No se encontró un usuario con ese número de estudiante.");
+    
+            if (usuarioAEliminar != null) {
+                usuarios.remove(usuarioAEliminar);
+                System.out.println("Usuario eliminado con éxito.");
+            } else {
+                System.out.println("No se encontró un usuario con ese número de estudiante.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error al eliminar el usuario. Intente de nuevo.");
         }
     }
+    
         // override equals and hashcode
         @Override
         public boolean equals(Object obj) {
