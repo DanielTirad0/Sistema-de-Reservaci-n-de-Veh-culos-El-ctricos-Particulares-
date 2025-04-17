@@ -1,6 +1,9 @@
 package UsoVehiculos;
 
 import java.util.Scanner;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class main {
     static boolean finalizado = false;
@@ -11,6 +14,18 @@ public class main {
         System.out.println("======================================");
         System.out.println("Bienvenido a la Estación de Reservación de Vehículos");
         System.out.println("======================================");
+
+        LocalDateTime ahora = LocalDateTime.now();
+        DayOfWeek dia = ahora.getDayOfWeek();
+        LocalTime hora = ahora.toLocalTime();
+        LocalTime inicio = LocalTime.of(7, 0);   
+        LocalTime fin = LocalTime.of(18, 0);     
+
+        if (dia == DayOfWeek.SATURDAY || dia == DayOfWeek.SUNDAY || hora.isBefore(inicio) || hora.isAfter(fin)) {
+            System.out.println("\nEl sistema solo está disponible de lunes a viernes entre 7:00 AM y 6:00 PM.");
+            System.out.println("Por favor, intente acceder en el horario permitido.\n");
+            return; 
+        }
 
         while (!finalizado) {
             System.out.println("\nMenú Principal:");

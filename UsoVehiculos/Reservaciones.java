@@ -108,6 +108,11 @@ public class Reservaciones {
             while (true) {
                 System.out.println("\n¿En cuál estación desea hacer la reserva?\n");
                 estacionSeleccionada = Estacion.escogaestacion();
+
+                if (estacionSeleccionada.getCapacidad() == 0 ) {
+                    System.out.println("No hay vehículos disponibles en esta estación. Intente con otra estación.");
+                    continue;
+                }
     
                 Estacion.vehiculosEnLaEstacion(estacionSeleccionada);
     
@@ -147,7 +152,10 @@ public class Reservaciones {
             if (!vehiculoSeleccionado.getEstado()) {
                 vehiculoSeleccionado.setEstado(true);
                 System.out.println("Reservación exitosa.");
-                Reservaciones reservacion = new Reservaciones("Pendiente", vehiculoSeleccionado, estacionSeleccionada, persona, 0.0, 0.0);
+
+                estacionSeleccionada.setCapacidad(estacionSeleccionada.getCapacidad() - 1);
+
+                Reservaciones reservacion = new Reservaciones("Activa", vehiculoSeleccionado, estacionSeleccionada, persona, 0.0, 0.0);
                 historialDeReservaciones.add(reservacion);
                 reservas.put(persona, vehiculoSeleccionado);
             } else {
