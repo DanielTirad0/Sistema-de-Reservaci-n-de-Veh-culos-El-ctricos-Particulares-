@@ -92,6 +92,14 @@ public class Reservaciones {
                 System.out.println("No se encontró un usuario con el número de estudiante proporcionado.");
                 return;
             }
+
+            for (Reservaciones reservacion : historialDeReservaciones) {
+                if (reservacion.getUsuario().equals(persona) && reservacion.getEstado().equals("Activa")) {
+                    System.out.println("El usuario ya tiene una reservación activa. No puede reservar más de un vehículo al mismo tiempo.");
+                    return;
+                }
+            }
+    
     
             boolean todasVacias = true;
             for (Estacion estacion : Estacion.estaciones) {
@@ -156,12 +164,32 @@ public class Reservaciones {
                 System.out.println("Vehículo no encontrado en esta estación.");
                 return;
             }
-    
+
+            double costo = 0;
+
+            if (vehiculoSeleccionado.getVehiculo().equals("Bicicleta")) {
+                costo = 3 + (tiempoUso > 1 ? (tiempoUso - 1) * 2 : 0);
+            } else if (vehiculoSeleccionado.getVehiculo().equals("Scooter")) {
+                costo = 2 + (tiempoUso > 1 ? (tiempoUso - 1) * 1 : 0);
+            } else if (vehiculoSeleccionado.getVehiculo().equals("Skateboard")) {
+                costo = 1 + (tiempoUso > 1 ? (tiempoUso - 1) * 0.5 : 0);
+            }
+            
+            System.out.println("El costo total de la reservación es: " + costo + " créditos.");
+
+            if (persona.getSaldo() < costo) {
+                System.out.println("El usuario no tiene suficiente saldo para realizar esta reservación.");
+                System.out.println("Saldo disponible: " + persona.getSaldo() + " créditos.");
+                System.out.println("Costo de la reservación: " + costo + " créditos.");
+                return;
+            }
+
             if (!vehiculoSeleccionado.getEstado()) {
                 vehiculoSeleccionado.setEstado(true);
                 System.out.println("Reservación exitosa.");
+                persona.setSaldo(persona.getSaldo() - costo);
 
-                Reservaciones reservacion = new Reservaciones("Activa", vehiculoSeleccionado, estacionSeleccionada, persona, 0.0, tiempoUso);
+                Reservaciones reservacion = new Reservaciones("Activa", vehiculoSeleccionado, estacionSeleccionada, persona, costo, tiempoUso);
                 historialDeReservaciones.add(reservacion);
                 reservas.put(persona, vehiculoSeleccionado);
             } else {

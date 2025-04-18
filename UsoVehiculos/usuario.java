@@ -7,12 +7,12 @@ public class Usuario {
     private String name;
     private String email;
     private String telefono;
-    private int saldo;
+    private double saldo;
     static HashSet<Usuario> usuarios = new HashSet();
 
     //contructor
 
-    Usuario(int numerodeestudiante, String name, String email, String telefono, int saldo){
+    Usuario(int numerodeestudiante, String name, String email, String telefono, double saldo){
         this.numerodeestudiante=numerodeestudiante;
         this.name=name;
         this.email=email;
@@ -34,7 +34,7 @@ public class Usuario {
     public String getTelefono(){
     return this.telefono;
     }
-    public int getSaldo(){
+    public double getSaldo(){
         return this.saldo;
     }
     //setters
@@ -50,7 +50,7 @@ public class Usuario {
     public void setTelefono(String telefono){
         this.telefono=telefono; 
     } 
-    public void setSaldo(int saldo){
+    public void setSaldo(double saldo){
         this.saldo=saldo; 
     }
     //methods
@@ -77,7 +77,7 @@ public class Usuario {
             sc.nextLine();
     
             for (int i = 0; i < add; i++) {
-                System.out.print("Ingrese el número de estudiante: ");
+                System.out.print("/nIngrese el número de estudiante: ");
                 int numerodeestudinte = sc.nextInt();
                 sc.nextLine();
     
@@ -111,8 +111,20 @@ public class Usuario {
 
     static void EliminarUsuario() {
         Scanner sc = new Scanner(System.in);
+
+        System.out.println("\nUsuarios disponibles para eliminar:");
+
+        if (usuarios.isEmpty()) {
+            System.out.println("No hay usuarios disponibles para eliminar.");
+            return;
+        }
+
+        for (Usuario usuario : usuarios) {
+            System.out.println("Número de estudiante: " + usuario.getNumeroDeEstudiante() + ", Nombre: " + usuario.getName());
+        }
+
         try {
-            System.out.print("Ingrese el número de estudiante del usuario a eliminar: ");
+            System.out.print("\nIngrese el número de estudiante del usuario a eliminar: ");
             int numerodeestudinte = sc.nextInt();
             Usuario usuarioAEliminar = null;
     
