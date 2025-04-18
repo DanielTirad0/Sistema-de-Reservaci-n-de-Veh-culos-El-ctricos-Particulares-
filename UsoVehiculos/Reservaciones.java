@@ -46,9 +46,12 @@ public class Reservaciones {
     public Vehiculos getVehiculo() {
         return vehiculo;
     }
+
     public double getTiempo() {
         return tiempo;
     }
+    
+
     //methods   
     public static void mostrarReservaciones(Reservaciones reservacion){
         System.out.println("Estado: "+ reservacion.getEstado());
@@ -108,11 +111,6 @@ public class Reservaciones {
             while (true) {
                 System.out.println("\n¿En cuál estación desea hacer la reserva?\n");
                 estacionSeleccionada = Estacion.escogaestacion();
-
-                if (estacionSeleccionada.getCapacidad() == 0 ) {
-                    System.out.println("No hay vehículos disponibles en esta estación. Intente con otra estación.");
-                    continue;
-                }
     
                 Estacion.vehiculosEnLaEstacion(estacionSeleccionada);
     
@@ -124,11 +122,21 @@ public class Reservaciones {
             }
     
             int idSeleccionado = 0;
+            double tiempoUso = 0.0;
             while (true) {
                 try {
                     System.out.print("\nIntroduzca el ID del vehículo que desea: ");
                     idSeleccionado = input.nextInt();
                     input.nextLine();
+
+                    System.out.print("Ingrese el tiempo de uso en horas (máximo 6): ");
+                    tiempoUso = input.nextDouble();	
+                    if (tiempoUso > 6) {
+                        System.out.println("El tiempo de uso no puede ser mayor a 6 horas.");
+                        continue;
+                    }
+                    
+
                     break;
                 } catch (Exception e) {
                     System.out.println("Por favor, introduzca un número válido.");
@@ -153,9 +161,7 @@ public class Reservaciones {
                 vehiculoSeleccionado.setEstado(true);
                 System.out.println("Reservación exitosa.");
 
-                estacionSeleccionada.setCapacidad(estacionSeleccionada.getCapacidad() - 1);
-
-                Reservaciones reservacion = new Reservaciones("Activa", vehiculoSeleccionado, estacionSeleccionada, persona, 0.0, 0.0);
+                Reservaciones reservacion = new Reservaciones("Activa", vehiculoSeleccionado, estacionSeleccionada, persona, 0.0, tiempoUso);
                 historialDeReservaciones.add(reservacion);
                 reservas.put(persona, vehiculoSeleccionado);
             } else {

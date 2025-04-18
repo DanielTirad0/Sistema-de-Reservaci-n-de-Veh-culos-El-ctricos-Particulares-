@@ -21,11 +21,11 @@ public class main {
         LocalTime inicio = LocalTime.of(7, 0);   
         LocalTime fin = LocalTime.of(18, 0);     
 
-        if (dia == DayOfWeek.SATURDAY || dia == DayOfWeek.SUNDAY || hora.isBefore(inicio) || hora.isAfter(fin)) {
-            System.out.println("\nEl sistema solo está disponible de lunes a viernes entre 7:00 AM y 6:00 PM.");
-            System.out.println("Por favor, intente acceder en el horario permitido.\n");
-            return; 
-        }
+        // if (dia == DayOfWeek.SATURDAY || dia == DayOfWeek.SUNDAY || hora.isBefore(inicio) || hora.isAfter(fin)) {
+        //     System.out.println("\nEl sistema solo está disponible de lunes a viernes entre 7:00 AM y 6:00 PM.");
+        //     System.out.println("Por favor, intente acceder en el horario permitido.\n");
+        //     return; 
+        // }
 
         while (!finalizado) {
             System.out.println("\nMenú Principal:");

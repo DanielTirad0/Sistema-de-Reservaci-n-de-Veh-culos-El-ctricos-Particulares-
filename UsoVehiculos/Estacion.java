@@ -45,7 +45,7 @@ public class Estacion {
     public void setCapacidad(int capacidad) {
         this.capacidad = capacidad;
     }
-    
+
     static {
         estaciones.add(new Estacion("Edificio Stefani", 40));
         estaciones.add(new Estacion("Centro de Estudiantes", 90));

@@ -8,6 +8,7 @@ public class Vehiculos {
     private String vehiculo;
     private Estacion lugar;
     private boolean reservado;
+    private Usuario dueño;
     static HashSet<Vehiculos> vehiculos= new HashSet<>();
     static Scanner sc=new Scanner(System.in);
 
@@ -21,6 +22,14 @@ this.lugar=lugar;
 //getter
 public int getId(){
     return this.id;
+}
+
+public Usuario getDueño() {
+    return dueño;
+}
+
+public void setDueño(Usuario dueño) {
+    this.dueño = dueño;
 }
 
 public String getVehiculo(){
@@ -92,11 +101,19 @@ public static void Agregar() {
 
         System.out.println("\n--------------------------------------");
         Estacion lugar = Estacion.escogaestacion();
+
+        if (lugar.getCapacidad() <= 0 ) { 
+            System.out.println("Capacidad máxima alcanzada en esta estación. Elija otra estación disponible.");
+            System.out.println("--------------------------------------");
+            return;
+        }
+
         Vehiculos vehiculo1 = new Vehiculos(id, vehiculo, lugar);
         if (vehiculos.add(vehiculo1)) {
             lugar.getVehiculos().add(vehiculo1);
             System.out.println("Vehículo agregado con éxito.");
             System.out.println("--------------------------------------");
+            lugar.setCapacidad(lugar.getCapacidad() - 1);
         } else {
             System.out.println("El vehículo con ID " + id + " ya existe y no se puede agregar.");
             System.out.println("--------------------------------------");
@@ -112,7 +129,8 @@ public static void Eliminar() {
     for (Vehiculos vehiculo : vehiculos) {
         if (vehiculo.getId() == id) {
             vehiculos.remove(vehiculo);
-            vehiculo.getLugar().getVehiculos().remove(vehiculo); // Eliminar también de la estación
+            vehiculo.getLugar().getVehiculos().remove(vehiculo); 
+            vehiculo.getLugar().setCapacidad(vehiculo.getLugar().getCapacidad() + 1); 
             System.out.println("Vehículo con ID " + id + " eliminado con éxito.");
             System.out.println("--------------------------------------\n");
             return;
@@ -128,4 +146,5 @@ public static void Mostrar(){
     System.out.println("ID: "+vehiculo.getId()+" Vehiculo: "+ vehiculo.getVehiculo()+" Estacion: "+vehiculo.getLugar().getUbicacion());
     }
 }
+
 }
