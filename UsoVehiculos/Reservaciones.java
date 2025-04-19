@@ -252,6 +252,9 @@ public class Reservaciones {
                     for (Reservaciones reservacion : historialDeReservaciones) {
                         if (reservacion.getUsuario().equals(usuarioAEliminar) && reservacion.getVehiculo().equals(vehiculoActualizado)) {
                             reservacion.estado = "Cancelado";
+                            double costoReservacion = reservacion.getCostoPorReservar();
+                            usuarioAEliminar.setSaldo(usuarioAEliminar.getSaldo() + costoReservacion);
+                            System.out.println("Se han reembolsado " + costoReservacion + " créditos al usuario " + usuarioAEliminar.getName() + ".");
                             break;
                         }
                     }

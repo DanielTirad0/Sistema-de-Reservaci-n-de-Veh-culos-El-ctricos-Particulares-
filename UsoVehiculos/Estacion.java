@@ -36,10 +36,6 @@ public class Estacion {
         return this.capacidad;
     }
 
-    public double getCosto() {
-        return this.costo;
-    }
-
     public String getUbicacion() {
         return this.ubicacion;
     }
@@ -57,9 +53,6 @@ public class Estacion {
         this.capacidad = capacidad;
     }
 
-    public void setCosto(double costo) {
-        this.costo = costo;
-    }
 
     // Setter para tiempoUso
     public void setTiempoUso(double tiempoUso) {
