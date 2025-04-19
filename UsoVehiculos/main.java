@@ -11,6 +11,7 @@ public class main {
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
+        
         System.out.println("======================================");
         System.out.println("Bienvenido a la Estación de Reservación de Vehículos");
         System.out.println("======================================");

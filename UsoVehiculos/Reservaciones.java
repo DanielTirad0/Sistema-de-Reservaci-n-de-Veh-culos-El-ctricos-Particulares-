@@ -10,20 +10,20 @@ public class Reservaciones {
     private Estacion estacion;
     private Vehiculos vehiculo; 
     private Usuario usuario;
-    private double costo;
+    private double costoPorReservar;
     private double tiempo;
     static Scanner input= new Scanner(System.in);
     private static HashMap<Usuario, Vehiculos> reservas = new HashMap<>();
     private static LinkedList<Reservaciones> historialDeReservaciones = new LinkedList<>();
 
-    public Reservaciones(String estado, Vehiculos vehiculo, Estacion estacion, Usuario usuario, double costo, double tiempo) {
+    public Reservaciones(String estado, Vehiculos vehiculo, Estacion estacion, Usuario usuario, double costoPorReservar, double tiempo) {
         this.tiempo= tiempo;
         this.estacion= estacion;
         this.estado= estado;
         this.vehiculo= vehiculo;
         this.usuario= usuario;
-        this.costo= costo;
-    }
+        this.costoPorReservar= costoPorReservar;
+        }
 
     //Getters
 
@@ -35,8 +35,8 @@ public class Reservaciones {
         return usuario;
     }
 
-    public double getCosto() {
-        return costo;
+    public double getCostoPorReservar() {
+        return costoPorReservar;
     }
 
     public Estacion getEstacion() {
@@ -58,7 +58,7 @@ public class Reservaciones {
         System.out.println("Vehiculo: "+ reservacion.getVehiculo().getVehiculo());
         System.out.println("Estacion: "+ reservacion.getEstacion().getUbicacion());
         System.out.println("Usuario: "+ reservacion.getUsuario().getName());
-        System.out.println("Costo: "+ reservacion.getCosto());
+        System.out.println("Costo: "+ reservacion.getCostoPorReservar());
         System.out.println("Tiempo: "+ reservacion.getTiempo());
         
     }
@@ -130,21 +130,11 @@ public class Reservaciones {
             }
     
             int idSeleccionado = 0;
-            double tiempoUso = 0.0;
             while (true) {
                 try {
                     System.out.print("\nIntroduzca el ID del vehículo que desea: ");
                     idSeleccionado = input.nextInt();
                     input.nextLine();
-
-                    System.out.print("Ingrese el tiempo de uso en horas (máximo 6): ");
-                    tiempoUso = input.nextDouble();	
-                    if (tiempoUso > 6) {
-                        System.out.println("El tiempo de uso no puede ser mayor a 6 horas.");
-                        continue;
-                    }
-                    
-
                     break;
                 } catch (Exception e) {
                     System.out.println("Por favor, introduzca un número válido.");
@@ -164,32 +154,34 @@ public class Reservaciones {
                 System.out.println("Vehículo no encontrado en esta estación.");
                 return;
             }
-
-            double costo = 0;
-
-            if (vehiculoSeleccionado.getVehiculo().equals("Bicicleta")) {
-                costo = 3 + (tiempoUso > 1 ? (tiempoUso - 1) * 2 : 0);
-            } else if (vehiculoSeleccionado.getVehiculo().equals("Scooter")) {
-                costo = 2 + (tiempoUso > 1 ? (tiempoUso - 1) * 1 : 0);
-            } else if (vehiculoSeleccionado.getVehiculo().equals("Skateboard")) {
-                costo = 1 + (tiempoUso > 1 ? (tiempoUso - 1) * 0.5 : 0);
-            }
             
-            System.out.println("El costo total de la reservación es: " + costo + " créditos.");
+            double tiempoUso = estacionSeleccionada.getTiempoUso();  
 
-            if (persona.getSaldo() < costo) {
+            double costoPorReservar = 0;
+            
+            if (vehiculoSeleccionado.getVehiculo().equals("Bicicleta")) {
+                costoPorReservar = 3 + (tiempoUso > 1 ? (tiempoUso - 1) * 2 : 0);
+            } else if (vehiculoSeleccionado.getVehiculo().equals("Scooter")) {
+                costoPorReservar = 2 + (tiempoUso > 1 ? (tiempoUso - 1) * 1 : 0);
+            } else if (vehiculoSeleccionado.getVehiculo().equals("Skateboard")) {
+                costoPorReservar = 1 + (tiempoUso > 1 ? (tiempoUso - 1) * 0.5 : 0);
+            }
+
+            if (persona.getSaldo() < costoPorReservar) {
                 System.out.println("El usuario no tiene suficiente saldo para realizar esta reservación.");
                 System.out.println("Saldo disponible: " + persona.getSaldo() + " créditos.");
-                System.out.println("Costo de la reservación: " + costo + " créditos.");
+                System.out.println("Costo de la reservación: " + costoPorReservar + " créditos.");
                 return;
+            } else {
+                System.out.println("El costo total de la reservación es: " + costoPorReservar + " créditos.");
             }
 
             if (!vehiculoSeleccionado.getEstado()) {
                 vehiculoSeleccionado.setEstado(true);
                 System.out.println("Reservación exitosa.");
-                persona.setSaldo(persona.getSaldo() - costo);
+                persona.setSaldo(persona.getSaldo() - costoPorReservar);
 
-                Reservaciones reservacion = new Reservaciones("Activa", vehiculoSeleccionado, estacionSeleccionada, persona, costo, tiempoUso);
+                Reservaciones reservacion = new Reservaciones("Activa", vehiculoSeleccionado, estacionSeleccionada, persona, costoPorReservar, tiempoUso);
                 historialDeReservaciones.add(reservacion);
                 reservas.put(persona, vehiculoSeleccionado);
             } else {
@@ -218,7 +210,7 @@ public class Reservaciones {
         System.out.println("Estación: " + reservacion.getEstacion().getUbicacion());
         System.out.println("Vehículo: " + reservacion.getVehiculo().getVehiculo());
         System.out.println("Estado: " + reservacion.getEstado());
-        System.out.println("Costo: $" + reservacion.getCosto());
+        System.out.println("Costo: $" + reservacion.getCostoPorReservar());
         System.out.println("Tiempo: " + reservacion.getTiempo() + " horas");
     }
 

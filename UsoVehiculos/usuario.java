@@ -77,7 +77,7 @@ public class Usuario {
             sc.nextLine();
     
             for (int i = 0; i < add; i++) {
-                System.out.print("/nIngrese el número de estudiante: ");
+                System.out.print("\nIngrese el número de estudiante: ");
                 int numerodeestudinte = sc.nextInt();
                 sc.nextLine();
     

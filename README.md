@@ -9,6 +9,6 @@ Distribucion de tareas:
 Daniel Tirado: crear clase de usuario, crear clase de vehiculos, crear file de main, idea principal de las opciones en main,
 metodo de agregar,eliminar, y mostrar.
 
-Héctor L. Rivera: crear clase de reservaciones, estación, mejoras en la interfaz mostrada en el output, logica para las reservaciones(eliminar, añadir, mostrar), manejo del tiempo, costos, capacidades de las estaciones
+Héctor L. Rivera: crear clase de reservaciones, estación, mejoras en la interfaz mostrada en el output, logica para las reservaciones(eliminar, añadir, mostrar), manejo del tiempo, costos, capacidades de las estaciones, restricciones generales
 
 

@@ -13,7 +13,10 @@ public class Estacion {
     private int capacidad;   
     private Set<Vehiculos> vehiculos;
     private List<Reservaciones> reservaciones;
+    static double costo;
+    private double tiempoUso;
     static HashSet<Estacion> estaciones= new HashSet<>();
+    static Scanner input = new Scanner(System.in);
 
     public Estacion(String ubicacion, int capacidad) {
 
@@ -25,8 +28,16 @@ public class Estacion {
     }
     //Getters
 
+    public double getTiempoUso() {
+        return tiempoUso;
+    }
+
     public int getCapacidad() {
         return this.capacidad;
+    }
+
+    public double getCosto() {
+        return this.costo;
     }
 
     public String getUbicacion() {
@@ -44,6 +55,15 @@ public class Estacion {
 
     public void setCapacidad(int capacidad) {
         this.capacidad = capacidad;
+    }
+
+    public void setCosto(double costo) {
+        this.costo = costo;
+    }
+
+    // Setter para tiempoUso
+    public void setTiempoUso(double tiempoUso) {
+        this.tiempoUso = tiempoUso;
     }
 
     static {
@@ -94,9 +114,39 @@ public class Estacion {
             return;
 
         } else {
+
+            while (true) {
+                try {
+                    System.out.print("Ingrese el tiempo estimado de uso en horas (máximo 6): ");
+                    double tiempo = input.nextDouble();
+                    if (tiempo > 6) {
+                        System.out.println("El tiempo de uso no puede ser mayor a 6 horas.");
+                        continue;
+                    } else if (tiempo <= 0) {
+                        System.out.println("El tiempo de uso no puede ser negativo o cero.");
+                        continue;
+                    }
+                    ubicacion.setTiempoUso(tiempo);  
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Por favor, introduzca un número válido.");
+                    input.nextLine();
+                }
+            }
+        
             for (Vehiculos vehiculo : vehiculos) {
                 String estado = vehiculo.getEstado() ? "Reservado" : "Disponible";
-                System.out.println("- ID: " + vehiculo.getId() + ", Tipo: " + vehiculo.getVehiculo() + ", Estado: " + estado);
+        
+                double costo = 0;
+                if (vehiculo.getVehiculo().equals("Bicicleta")) {
+                    costo = 3 + (ubicacion.getTiempoUso() > 1 ? (ubicacion.getTiempoUso() - 1) * 2 : 0);
+                } else if (vehiculo.getVehiculo().equals("Scooter")) {
+                    costo = 2 + (ubicacion.getTiempoUso() > 1 ? (ubicacion.getTiempoUso() - 1) * 1 : 0);
+                } else if (vehiculo.getVehiculo().equals("Skateboard")) {
+                    costo = 1 + (ubicacion.getTiempoUso() > 1 ? (ubicacion.getTiempoUso() - 1) * 0.5 : 0);
+                }
+        
+                System.out.println("- ID: " + vehiculo.getId() + ", Tipo: " + vehiculo.getVehiculo() + ", Estado: " + estado + ", Costo estimado: $" + costo);
             }
         }
 
