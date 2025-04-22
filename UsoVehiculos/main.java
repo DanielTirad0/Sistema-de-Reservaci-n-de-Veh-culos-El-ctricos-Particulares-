@@ -112,6 +112,7 @@ public class main {
                 System.out.print("Seleccione una opción: ");
                 int opcionModificacion = sc.nextInt();
                 if(opcionModificacion==1){Usuario.ModificaciondeUsuario();}
+                else if(opcionModificacion==2){Vehiculos.ModificaciondeVehiculo();}
                     break;
                 case 10:
                 System.out.println("Las reservaciones de hoy son:");

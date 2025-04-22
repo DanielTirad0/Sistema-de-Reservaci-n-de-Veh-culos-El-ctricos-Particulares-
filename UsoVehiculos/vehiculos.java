@@ -157,5 +157,106 @@ public static void Mostrar(){
     System.out.println("ID: "+vehiculo.getId()+" Vehiculo: "+ vehiculo.getVehiculo()+" Estacion: "+vehiculo.getLugar().getUbicacion());
     }
 }
+public static void ModificaciondeVehiculo() {
+    Scanner sc = new Scanner(System.in);
+    try {
+        System.out.println("Mostrando Vehículos Para Modificar");
+        Mostrar(); 
+        System.out.print("Por favor introduzca el ID del vehículo que desea modificar: ");
+        int id = sc.nextInt();
+        Vehiculos vehiculo = null;
+        for (Vehiculos v : vehiculos) {
+            if (v.getId() == id) {
+                vehiculo = v;
+                break;
+            }
+        }
+
+            while(vehiculo == null) {
+                System.out.println("ID no válido. Por favor, intente de nuevo.");
+                System.out.print("Ingrese el ID del vehículo a modificar: ");
+                id = sc.nextInt();
+                for (Vehiculos v : vehiculos) {
+                    if (v.getId() == id) {
+                        vehiculo = v;
+                        break;
+                    }
+                }
+            }     
+
+        System.out.println("¿Qué desea modificar?");
+        System.out.println("1. ID");
+        System.out.println("2. Tipo de Vehículo");
+        System.out.println("3. Estación");
+        System.out.println("===============================");
+        System.out.print("Su opción por favor: ");
+        int opcionespecifica = sc.nextInt();
+        sc.nextLine();
+
+        if (opcionespecifica == 1) {
+            System.out.println("ID actual: " + vehiculo.getId());
+            System.out.print("Nuevo ID: ");
+            int nuevoId = sc.nextInt();
+            boolean idExistente = false;
+            for (Vehiculos v : vehiculos) {
+                if (v.getId() == nuevoId) {
+                    idExistente = true;
+                    break;
+                }
+            }
+
+            if (idExistente) {
+                System.out.println("Error: El ID " + nuevoId + " ya está en uso. No se puede modificar.");
+            } else {
+                vehiculo.setId(nuevoId);
+                System.out.println("ID modificado con éxito.");
+            }
+        } else if (opcionespecifica == 2) {
+            System.out.println("Tipo de Vehículo actual: " + vehiculo.getVehiculo());
+            System.out.println("Seleccione el nuevo tipo de vehículo:");
+            System.out.println("1. Bicicleta");
+            System.out.println("2. Scooter");
+            System.out.println("3. Skateboard");
+            System.out.print("Opción: ");
+            int tipo = sc.nextInt();
+            String nuevoTipo = null;
+
+            while (tipo < 1 || tipo > 3) {
+                System.out.println("Opción no válida. Por favor, intente de nuevo.");
+                tipo = sc.nextInt();
+            }
+
+            if (tipo == 1) {
+                nuevoTipo = "Bicicleta";
+            } else if (tipo == 2) {
+                nuevoTipo = "Scooter";
+            } else if (tipo == 3) {
+                nuevoTipo = "Skateboard";
+            }
+
+            vehiculo.setVehiculos(nuevoTipo);
+            System.out.println("Tipo de Vehículo modificado con éxito.");
+        } else if (opcionespecifica == 3) {
+            System.out.println("Estación actual: " + vehiculo.getLugar().getUbicacion());
+            System.out.println("Seleccione la nueva estación:");
+            Estacion nuevaEstacion = Estacion.escogaestacion();
+
+            if (nuevaEstacion.getCapacidad() <= 0) {
+                System.out.println("Error: La estación seleccionada no tiene capacidad disponible.");
+            } else {
+                vehiculo.getLugar().getVehiculos().remove(vehiculo);  
+
+                vehiculo.setLugar(nuevaEstacion); 
+                nuevaEstacion.getVehiculos().add(vehiculo);  
+
+                System.out.println("Estación modificada con éxito.");
+            }
+        } else {
+            System.out.println("Opción no válida.");
+        }
+    } catch (Exception e) {
+        System.out.println("Error al modificar el vehículo. Intente de nuevo.");
+    }
+}
 
 }

@@ -160,7 +160,17 @@ public class Usuario {
                 break;
             }
         }
-        
+        while(user==null){
+            System.out.println("No se encontro el usuario, porfavor introduzca el numero de estudiante tal y como se agrego:");
+            numerodeestudiante = sc.nextInt(); 
+            for (Usuario usuario : usuarios) {
+                if (usuario.getNumeroDeEstudiante() == numerodeestudiante) {
+                    user = usuario;
+                    break;
+                }
+            }
+        }
+    
     
         System.out.println("Que desea Modificar?");
         System.out.println("1. Nombre");
