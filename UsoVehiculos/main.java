@@ -101,9 +101,22 @@ public class main {
                     System.out.println("\nMostrando Vehículos");
                     Vehiculos.Mostrar();
                     break;
-
+                case 9:
+                System.out.println("\nGestion de Modificaciones");
+                System.out.println("--------------------------------------");
+                System.out.println("1. Modificar Usuario");
+                System.out.println("2. Modificar Vehículo");
+                System.out.println("3. Modificar Reservacion");              
+                System.out.println("4. Modificar Lista de Espera");
+                System.out.println("--------------------------------------");
+                System.out.print("Seleccione una opción: ");
+                int opcionModificacion = sc.nextInt();
+                if(opcionModificacion==1){Usuario.ModificaciondeUsuario();}
+                    break;
                 case 10:
-                    System.out.println("\nGracias por usar nuestro servicio. Hasta luego.");
+                System.out.println("Las reservaciones de hoy son:");
+                Reservaciones.mostrarTodasLasReservaciones();
+                System.out.println("\nGracias por usar nuestro servicio. Hasta luego.");
                     finalizado = true;
                     break;
 
