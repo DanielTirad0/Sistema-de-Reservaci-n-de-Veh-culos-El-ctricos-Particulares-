@@ -78,7 +78,7 @@ public class Usuario {
     
             for (int i = 0; i < add; i++) {
                 System.out.print("\nIngrese el número de estudiante: ");
-                int numerodeestudinte = sc.nextInt();
+                int numerodeestudiante = sc.nextInt();
                 sc.nextLine();
     
                 System.out.print("Ingrese el nombre del usuario: ");
@@ -94,11 +94,11 @@ public class Usuario {
                 int saldo = sc.nextInt();
                 sc.nextLine();
     
-                usuario = new Usuario(numerodeestudinte, name, email, telefono, saldo);
+                usuario = new Usuario(numerodeestudiante, name, email, telefono, saldo);
                 if (usuarios.add(usuario)) {
                     System.out.println("Usuario agregado con éxito.");
                 } else {
-                    System.out.println("El usuario con número de estudiante " + numerodeestudinte + " ya existe.");
+                    System.out.println("El usuario con número de estudiante " + numerodeestudiante + " ya existe.");
                 }
             }
         } catch (Exception e) {
@@ -125,11 +125,11 @@ public class Usuario {
 
         try {
             System.out.print("\nIngrese el número de estudiante del usuario a eliminar: ");
-            int numerodeestudinte = sc.nextInt();
+            int numerodeestudiante = sc.nextInt();
             Usuario usuarioAEliminar = null;
     
             for (Usuario usuario : usuarios) {
-                if (usuario.getNumeroDeEstudiante() == numerodeestudinte) {
+                if (usuario.getNumeroDeEstudiante() == numerodeestudiante) {
                     usuarioAEliminar = usuario;
                     break;
                 }
@@ -145,7 +145,97 @@ public class Usuario {
             System.out.println("Error al eliminar el usuario. Intente de nuevo.");
         }
     }
+
+        static void ModificaciondeUsuario(){
+            Scanner sc = new Scanner(System.in);
+            try{
+                System.out.println("Mostrando Usuarios Para Modificar");
+                MostrarUsuario();
+         System.out.print("Por favor introduzca el numero de estudiante tal y como se agrego:");
+         int numerodeestudiante = sc.nextInt(); 
+         Usuario user=null;
+         for (Usuario usuario : usuarios) {
+            if (usuario.getNumeroDeEstudiante() == numerodeestudiante) {
+                user = usuario;
+                break;
+            }
+        }
+        while(user==null){
+            System.out.println("No se encontro el usuario, porfavor introduzca el numero de estudiante tal y como se agrego:");
+            numerodeestudiante = sc.nextInt(); 
+            for (Usuario usuario : usuarios) {
+                if (usuario.getNumeroDeEstudiante() == numerodeestudiante) {
+                    user = usuario;
+                    break;
+                }
+            }
+        }
     
+    
+        System.out.println("Que desea Modificar?");
+        System.out.println("1. Nombre");
+        System.out.println("2. Numero de Estudiante");
+        System.out.println("3. Email");
+        System.out.println("4. Telefono");
+        System.out.println("5. Saldo");
+        System.out.println("===============================");
+        System.out.print("su opcion porfavor:");
+        int opcionespecifica = sc.nextInt();
+        sc.nextLine();
+        if(opcionespecifica==1){
+            System.out.println("Nombre de Usuario: " + user.getName());
+            System.out.println("Nombre a modificar: ");
+            String name= sc.nextLine();
+            user.setName(name);
+            System.out.println("Nombre modificado con exito");
+         }
+         else if (opcionespecifica == 2) {
+            System.out.println("Número de Estudiante actual: " + user.getNumeroDeEstudiante());
+            System.out.print("Número de Estudiante a modificar: ");
+            int nuevoNumero = sc.nextInt();
+            boolean numeroExistente = false;
+            for (Usuario usuario : usuarios) {
+                if (usuario.getNumeroDeEstudiante() == nuevoNumero) {
+                    numeroExistente = true;
+                    break;
+                }
+            }
+        
+            if (numeroExistente) {
+                System.out.println("Error: El número de estudiante " + nuevoNumero + " ya está en uso. No se puede modificar.");
+            } else {
+                user.setNumeroDeEstudiante(nuevoNumero);
+                System.out.println("Número de Estudiante modificado con éxito.");
+            }
+        }
+            else if(opcionespecifica==3){
+                System.out.println("Email de Usuario: " + user.getEmail());
+                System.out.print("Email a modificar: ");
+                String email= sc.nextLine();
+                user.setEmail(email);
+                System.out.println("Email modificado con exito");
+            }
+            else if(opcionespecifica==4){
+                System.out.println("Telefono de Usuario: " + user.getTelefono());
+                System.out.print("Telefono a modificar: ");
+                String telefono= sc.nextLine();
+                user.setTelefono(telefono);
+                System.out.println("Telefono modificado con exito");
+            }
+            else if(opcionespecifica==5){
+                System.out.println("Saldo de Usuario: " + user.getSaldo());
+                System.out.print("Saldo a modificar: ");
+                double saldo= sc.nextDouble();
+                user.setSaldo(saldo);
+                System.out.println("Saldo modificado con exito");
+            }
+        } 
+        catch (Exception e) {
+            System.out.println("Error al modificar el usuario. Intente de nuevo.");
+        }
+    }
+    
+
         // override equals and hashcode
         @Override
         public boolean equals(Object obj) {
