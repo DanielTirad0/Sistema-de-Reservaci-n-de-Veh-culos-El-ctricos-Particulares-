@@ -95,55 +95,62 @@ public class Estacion {
     return null;
 }
 
-    public static void vehiculosEnLaEstacion(Estacion ubicacion) {
+public static void vehiculosEnLaEstacion(Estacion ubicacion, String diaConsulta, int horaConsulta) {
+    Set<Vehiculos> vehiculos = ubicacion.getVehiculos();
 
-        System.out.println("--------------------------------------");
-        System.out.println("Estación seleccionada: " + ubicacion.getUbicacion());
-        System.out.println("Vehículos disponibles en esta estación:\n");
-    
-        Set<Vehiculos> vehiculos = ubicacion.getVehiculos();
-    
-        if (vehiculos.isEmpty()) {
-            return;
+    if (vehiculos.isEmpty()) {
+        System.out.println("No hay vehículos disponibles en esta estación.");
+        return;
+    }
 
-        } else {
-
-            while (true) {
-                try {
-                    System.out.print("Ingrese el tiempo estimado de uso en horas (máximo 6): ");
-                    double tiempo = input.nextDouble();
-                    if (tiempo > 6) {
-                        System.out.println("El tiempo de uso no puede ser mayor a 6 horas.");
-                        continue;
-                    } else if (tiempo <= 0) {
-                        System.out.println("El tiempo de uso no puede ser negativo o cero.");
-                        continue;
-                    }
-                    ubicacion.setTiempoUso(tiempo);  
-                    break;
-                } catch (Exception e) {
-                    System.out.println("Por favor, introduzca un número válido.");
-                    input.nextLine();
-                }
+    // Preguntar tiempo de uso
+    while (true) {
+        try {
+            System.out.print("Ingrese el tiempo estimado de uso en horas (máximo 6): ");
+            double tiempo = input.nextDouble();
+            System.out.println();
+            if (tiempo > 6) {
+                System.out.println("El tiempo de uso no puede ser mayor a 6 horas.");
+                continue;
+            } else if (tiempo <= 0) {
+                System.out.println("El tiempo de uso no puede ser negativo o cero.");
+                continue;
             }
-        
-            for (Vehiculos vehiculo : vehiculos) {
-                String estado = vehiculo.getEstado() ? "Reservado" : "Disponible";
-        
-                double costo = 0;
-                if (vehiculo.getVehiculo().equals("Bicicleta")) {
-                    costo = 3 + (ubicacion.getTiempoUso() > 1 ? (ubicacion.getTiempoUso() - 1) * 2 : 0);
-                } else if (vehiculo.getVehiculo().equals("Scooter")) {
-                    costo = 2 + (ubicacion.getTiempoUso() > 1 ? (ubicacion.getTiempoUso() - 1) * 1 : 0);
-                } else if (vehiculo.getVehiculo().equals("Skateboard")) {
-                    costo = 1 + (ubicacion.getTiempoUso() > 1 ? (ubicacion.getTiempoUso() - 1) * 0.5 : 0);
-                }
-        
-                System.out.println("- ID: " + vehiculo.getId() + ", Tipo: " + vehiculo.getVehiculo() + ", Estado: " + estado + ", Costo estimado: $" + costo);
+            ubicacion.setTiempoUso(tiempo);
+            break;
+        } catch (Exception e) {
+            System.out.println("Por favor, introduzca un número válido.");
+            input.nextLine();
+        }
+    }
+
+    // Mostrar vehículos y su estado según día y hora
+    for (Vehiculos vehiculo : vehiculos) {
+        boolean reservado = false;
+        for (Reservaciones reservacion : Reservaciones.historialDeReservaciones) {
+            if (reservacion.getVehiculo().equals(vehiculo) &&
+                reservacion.getDiaDeReserva().equalsIgnoreCase(diaConsulta) &&
+                reservacion.getHoraDeReserva() == horaConsulta &&
+                reservacion.getEstado().equals("Reservado")) {
+                reservado = true;
+                break;
             }
         }
+        String estado = reservado ? "Reservado" : "Disponible";
 
+        double costo = 0;
+        if (vehiculo.getVehiculo().equals("Bicicleta")) {
+            costo = 3 + (ubicacion.getTiempoUso() > 1 ? (ubicacion.getTiempoUso() - 1) * 2 : 0);
+        } else if (vehiculo.getVehiculo().equals("Scooter")) {
+            costo = 2 + (ubicacion.getTiempoUso() > 1 ? (ubicacion.getTiempoUso() - 1) * 1 : 0);
+        } else if (vehiculo.getVehiculo().equals("Skateboard")) {
+            costo = 1 + (ubicacion.getTiempoUso() > 1 ? (ubicacion.getTiempoUso() - 1) * 0.5 : 0);
+        }
+
+        System.out.println("- ID: " + vehiculo.getId() + ", Tipo: " + vehiculo.getVehiculo() +
+            ", Estado: " + estado + ", Costo estimado: $" + costo);
     }
+}
 
 }
 

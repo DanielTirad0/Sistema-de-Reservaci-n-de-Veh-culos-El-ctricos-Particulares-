@@ -56,14 +56,20 @@ public class Usuario {
     //methods
 
     static void MostrarUsuario(){
-        if(usuarios.isEmpty()){ System.out.println("No hay usuarios disponibles");}
-        for(Usuario usuario:usuarios){
-        System.out.println(usuario.getEmail());
-        System.out.println(usuario.getName());
-        System.out.println(usuario.getNumeroDeEstudiante());
-        System.out.println(usuario.getTelefono());
-        System.out.println(usuario.getSaldo());
-        System.out.println("=======================================");
+        if (usuarios.isEmpty()) {
+            System.out.println("No hay usuarios disponibles.");
+            return;
+        }
+    
+        System.out.println("\n========== Lista de Usuarios ==========\n");
+    
+        for (Usuario usuario : usuarios) {
+            System.out.println("Nombre: " + usuario.getName());
+            System.out.println("Correo electrónico: " + usuario.getEmail());
+            System.out.println("Número de estudiante: " + usuario.getNumeroDeEstudiante());
+            System.out.println("Teléfono: " + usuario.getTelefono());
+            System.out.printf("Saldo disponible: $%.2f\n", usuario.getSaldo());
+            System.out.println("---------------------------------------");
         }
         
       }  
@@ -75,9 +81,10 @@ public class Usuario {
             System.out.print("¿Cuántos usuarios desea agregar? ");
             int add = sc.nextInt();
             sc.nextLine();
+            System.out.println("--------------------------------------");
     
             for (int i = 0; i < add; i++) {
-                System.out.print("\nIngrese el número de estudiante: ");
+                System.out.print("Ingrese el número de estudiante: ");
                 int numerodeestudiante = sc.nextInt();
                 sc.nextLine();
     
@@ -90,15 +97,17 @@ public class Usuario {
                 System.out.print("Ingrese el teléfono del usuario: ");
                 String telefono = sc.nextLine();
     
-                System.out.print("Ingrese el saldo del usuario: ");
+                System.out.print("Ingrese el saldo del usuario: $");
                 int saldo = sc.nextInt();
                 sc.nextLine();
     
                 usuario = new Usuario(numerodeestudiante, name, email, telefono, saldo);
                 if (usuarios.add(usuario)) {
                     System.out.println("Usuario agregado con éxito.");
+                    System.out.println("--------------------------------------");
                 } else {
                     System.out.println("El usuario con número de estudiante " + numerodeestudiante + " ya existe.");
+                    System.out.println("--------------------------------------");
                 }
             }
         } catch (Exception e) {
@@ -151,7 +160,7 @@ public class Usuario {
             try{
                 System.out.println("Mostrando Usuarios Para Modificar");
                 MostrarUsuario();
-         System.out.print("Por favor introduzca el numero de estudiante tal y como se agrego:");
+         System.out.print("Por favor introduzca el numero de estudiante tal y como se agrego: ");
          int numerodeestudiante = sc.nextInt(); 
          Usuario user=null;
          for (Usuario usuario : usuarios) {
@@ -161,7 +170,7 @@ public class Usuario {
             }
         }
         while(user==null){
-            System.out.println("No se encontro el usuario, porfavor introduzca el numero de estudiante tal y como se agrego:");
+            System.out.print("No se encontro el usuario, por favor introduzca el numero de estudiante tal y como se agrego: ");
             numerodeestudiante = sc.nextInt(); 
             for (Usuario usuario : usuarios) {
                 if (usuario.getNumeroDeEstudiante() == numerodeestudiante) {
@@ -179,15 +188,15 @@ public class Usuario {
         System.out.println("4. Telefono");
         System.out.println("5. Saldo");
         System.out.println("===============================");
-        System.out.print("su opcion porfavor:");
+        System.out.print("Su opcion por favor:");
         int opcionespecifica = sc.nextInt();
         sc.nextLine();
         if(opcionespecifica==1){
             System.out.println("Nombre de Usuario: " + user.getName());
-            System.out.println("Nombre a modificar: ");
+            System.out.print("Nombre a modificar: ");
             String name= sc.nextLine();
             user.setName(name);
-            System.out.println("Nombre modificado con exito");
+            System.out.println("Nombre modificado con éxito.");
          }
          else if (opcionespecifica == 2) {
             System.out.println("Número de Estudiante actual: " + user.getNumeroDeEstudiante());
@@ -205,7 +214,7 @@ public class Usuario {
                 System.out.println("Error: El número de estudiante " + nuevoNumero + " ya está en uso. No se puede modificar.");
             } else {
                 user.setNumeroDeEstudiante(nuevoNumero);
-                System.out.println("Número de Estudiante modificado con éxito.");
+                System.out.println("Número de estudiante modificado con éxito.");
             }
         }
             else if(opcionespecifica==3){
@@ -213,21 +222,21 @@ public class Usuario {
                 System.out.print("Email a modificar: ");
                 String email= sc.nextLine();
                 user.setEmail(email);
-                System.out.println("Email modificado con exito");
+                System.out.println("Email modificado con éxito.");
             }
             else if(opcionespecifica==4){
-                System.out.println("Telefono de Usuario: " + user.getTelefono());
-                System.out.print("Telefono a modificar: ");
+                System.out.println("Teléfono de Usuario: " + user.getTelefono());
+                System.out.print("Teléfono a modificar: ");
                 String telefono= sc.nextLine();
                 user.setTelefono(telefono);
-                System.out.println("Telefono modificado con exito");
+                System.out.println("Teléfono modificado con exito.");
             }
             else if(opcionespecifica==5){
                 System.out.println("Saldo de Usuario: " + user.getSaldo());
                 System.out.print("Saldo a modificar: ");
                 double saldo= sc.nextDouble();
                 user.setSaldo(saldo);
-                System.out.println("Saldo modificado con exito");
+                System.out.println("Saldo modificado con éxito.");
             }
         } 
         catch (Exception e) {

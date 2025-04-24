@@ -7,7 +7,6 @@ public class Vehiculos {
     private int id;
     private String vehiculo;
     private Estacion lugar;
-    private boolean reservado;
     private Usuario dueño;
     static HashSet<Vehiculos> vehiculos= new HashSet<>();
     static Scanner sc=new Scanner(System.in);
@@ -40,9 +39,6 @@ public Estacion getLugar(){
     return this.lugar;
 }
 
-public boolean getEstado() {
-    return this.reservado;
-}
 
 
 //setter
@@ -58,9 +54,7 @@ public void setLugar(Estacion lugar){
     this.lugar=lugar;
 }
 
-public void setEstado(boolean reservacion) {
-    this.reservado=reservacion;
-}
+
  
 //methods
 // Override equals and hashCode
@@ -77,10 +71,10 @@ public int hashCode() {
     return Integer.hashCode(id);
 }
 public static void Agregar() {
-    System.out.print("\n¿Cuántos vehículos desea agregar? ");
+    System.out.print("¿Cuántos vehículos desea agregar? ");
     int cantidad = sc.nextInt();
     for (int i = 0; i < cantidad; i++) {
-        System.out.println("\n--------------------------------------");
+        System.out.println("--------------------------------------");
         System.out.print("Ingrese el ID del vehículo: ");
         int id;
         try {
@@ -94,21 +88,41 @@ public static void Agregar() {
             sc.next(); 
             return;
         }
-        System.out.println("\nSeleccione el tipo de vehículo: ");
-        System.out.print("1. Bicicleta\n2. Scooter\n3. Skateboard\nOpción: ");
-        int tipo = sc.nextInt();
+
+        int tipo = 0;
         String vehiculo = null;
-       while(tipo<1 || tipo>3){
-            System.out.println("\nOpcion no valida, por favor intente de nuevo.");
-            tipo = sc.nextInt();
+        while (true) {
+            try {
+                System.out.println("\nSeleccione el tipo de vehículo:");
+                System.out.println("1. Bicicleta");
+                System.out.println("2. Scooter");
+                System.out.println("3. Skateboard");
+                System.out.print("Opción: ");
+                tipo = sc.nextInt();
+                sc.nextLine();
+
+                if (tipo < 1 || tipo > 3) {
+                    System.out.println("Opción no válida, por favor intente de nuevo.");
+                } else {
+                    break; 
+                }
+            } catch (Exception e) {
+                System.out.println("Entrada no válida. Por favor, introduzca un número entre 1 y 3.");
+                sc.nextLine(); 
+            }
         }
-        if(tipo==1){
-            vehiculo="Bicicleta";
-        }else if(tipo==2){
-            vehiculo="Scooter";
-        }else if(tipo==3){
-            vehiculo="Skateboard";
-        } 
+
+        switch (tipo) {
+            case 1:
+                vehiculo = "Bicicleta";
+                break;
+            case 2:
+                vehiculo = "Scooter";
+                break;
+            case 3:
+                vehiculo = "Skateboard";
+                break;
+        }
 
         System.out.println("\n--------------------------------------");
         Estacion lugar = Estacion.escogaestacion();
@@ -154,15 +168,15 @@ public static void Eliminar() {
 
 public static void Mostrar(){
     for (Vehiculos vehiculo: vehiculos){
-    System.out.println("ID: "+vehiculo.getId()+" Vehiculo: "+ vehiculo.getVehiculo()+" Estacion: "+vehiculo.getLugar().getUbicacion());
+    System.out.println("ID: "+vehiculo.getId()+", Vehiculo: "+ vehiculo.getVehiculo()+", Estacion: "+vehiculo.getLugar().getUbicacion());
     }
 }
 public static void ModificaciondeVehiculo() {
     Scanner sc = new Scanner(System.in);
     try {
-        System.out.println("Mostrando Vehículos Para Modificar");
+        System.out.println("Mostrando vehículos para modificar:\n");
         Mostrar(); 
-        System.out.print("Por favor introduzca el ID del vehículo que desea modificar: ");
+        System.out.print("\nPor favor introduzca el ID del vehículo que desea modificar: ");
         int id = sc.nextInt();
         Vehiculos vehiculo = null;
         for (Vehiculos v : vehiculos) {
@@ -223,6 +237,7 @@ public static void ModificaciondeVehiculo() {
 
             while (tipo < 1 || tipo > 3) {
                 System.out.println("Opción no válida. Por favor, intente de nuevo.");
+                System.out.print("Seleccione el nuevo tipo de vehículo: ");
                 tipo = sc.nextInt();
             }
 
