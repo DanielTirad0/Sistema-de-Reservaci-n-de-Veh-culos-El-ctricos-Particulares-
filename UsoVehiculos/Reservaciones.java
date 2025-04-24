@@ -14,6 +14,7 @@ public class Reservaciones {
     private double tiempo;
     private int horaDeReserva;
     private String diaDeReserva;
+    private int horaDeFin;
     static Scanner input = new Scanner(System.in);
     private static HashMap<Usuario, Vehiculos> reservas = new HashMap<>();
     public static LinkedList<Reservaciones> historialDeReservaciones = new LinkedList<>();
@@ -27,6 +28,7 @@ public class Reservaciones {
         this.vehiculo = vehiculo;
         this.usuario = usuario;
         this.costoPorReservar = costoPorReservar;
+        this.horaDeFin = horaDeReserva + (int) tiempo;
     }
 
     // Getters
@@ -56,6 +58,10 @@ public class Reservaciones {
 
     public Vehiculos getVehiculo() {
         return vehiculo;
+    }
+
+    public int getHoraDeFin() {
+        return horaDeFin;
     }
 
     public double getTiempo() {
@@ -170,17 +176,19 @@ public class Reservaciones {
                 return;
             }
 
+            
+            double tiempoUso = estacionSeleccionada.getTiempoUso();
+
             for (Reservaciones reservacion : historialDeReservaciones) {
                 if (reservacion.getVehiculo().equals(vehiculoSeleccionado) &&
                     reservacion.getDiaDeReserva().equalsIgnoreCase(diaDeReserva) &&
-                    reservacion.getHoraDeReserva() == horaDeReserva &&
-                    reservacion.getEstado().equals("Reservado")) {
-                    System.out.println("El vehículo ya está reservado el " + diaDeReserva + " a las " + horaDeReserva + ":00.");
+                    reservacion.getEstado().equals("Reservado") &&
+                    !(horaDeReserva >= reservacion.getHoraDeFin() || (horaDeReserva + tiempoUso) <= reservacion.getHoraDeReserva())) {
+                    System.out.println("El vehículo ya está reservado el " + diaDeReserva + " de " + reservacion.getHoraDeReserva() + ":00 a " + reservacion.getHoraDeFin() + ":00.");
                     return;
                 }
             }
-
-            double tiempoUso = estacionSeleccionada.getTiempoUso();  
+  
             double costoPorReservar = 0;
 
             if (vehiculoSeleccionado.getVehiculo().equals("Bicicleta")) {
@@ -232,6 +240,7 @@ public class Reservaciones {
         System.out.println("Costo: $" + reservacion.getCostoPorReservar());
         System.out.println("Tiempo: " + reservacion.getTiempo() + " horas");
         System.out.println("Hora de Reserva: " + reservacion.getHoraDeReserva() + ":00");
+        System.out.println("Hora de Fin: " + reservacion.getHoraDeFin() + ":00");
         System.out.println("Día de Reserva: " + reservacion.getDiaDeReserva());
     }
 

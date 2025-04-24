@@ -124,20 +124,19 @@ public static void vehiculosEnLaEstacion(Estacion ubicacion, String diaConsulta,
         }
     }
 
-    // Mostrar vehículos y su estado según día y hora
     for (Vehiculos vehiculo : vehiculos) {
         boolean reservado = false;
         for (Reservaciones reservacion : Reservaciones.historialDeReservaciones) {
             if (reservacion.getVehiculo().equals(vehiculo) &&
                 reservacion.getDiaDeReserva().equalsIgnoreCase(diaConsulta) &&
-                reservacion.getHoraDeReserva() == horaConsulta &&
-                reservacion.getEstado().equals("Reservado")) {
+                reservacion.getEstado().equals("Reservado") &&
+                !(horaConsulta >= reservacion.getHoraDeFin() || (horaConsulta + ubicacion.getTiempoUso()) <= reservacion.getHoraDeReserva())) {
                 reservado = true;
                 break;
             }
         }
         String estado = reservado ? "Reservado" : "Disponible";
-
+    
         double costo = 0;
         if (vehiculo.getVehiculo().equals("Bicicleta")) {
             costo = 3 + (ubicacion.getTiempoUso() > 1 ? (ubicacion.getTiempoUso() - 1) * 2 : 0);
@@ -146,7 +145,7 @@ public static void vehiculosEnLaEstacion(Estacion ubicacion, String diaConsulta,
         } else if (vehiculo.getVehiculo().equals("Skateboard")) {
             costo = 1 + (ubicacion.getTiempoUso() > 1 ? (ubicacion.getTiempoUso() - 1) * 0.5 : 0);
         }
-
+    
         System.out.println("- ID: " + vehiculo.getId() + ", Tipo: " + vehiculo.getVehiculo() +
             ", Estado: " + estado + ", Costo estimado: $" + costo);
     }
