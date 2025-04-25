@@ -212,6 +212,15 @@ public class Reservaciones {
                     reservacion.getEstado().equals("Reservado") &&
                     !(horaDeReserva >= reservacion.getHoraDeFin() || (horaDeReserva + tiempoUso) <= reservacion.getHoraDeReserva())) {
                     System.out.println("El vehículo ya está reservado el " + diaDeReserva + " de " + reservacion.getHoraDeReserva() + ":00 a " + reservacion.getHoraDeFin() + ":00.");
+                    System.out.print("¿Desea ser añadido a la lista de espera? (Si/No): ");
+                    String respuesta = input.nextLine();
+                    if (respuesta.equalsIgnoreCase("Si")) {
+                        Reservaciones reservacionEspera = new Reservaciones("En Espera", null, estacionSeleccionada, persona, 0, 0, horaDeReserva, diaDeReserva);
+                        listaDeEspera.add(reservacionEspera);
+                        System.out.println("Usted ha sido añadido a la lista de espera.");
+                    } else {
+                        System.out.println("No se ha realizado ninguna reservación.");
+                    }
                     return;
                 }
             }
