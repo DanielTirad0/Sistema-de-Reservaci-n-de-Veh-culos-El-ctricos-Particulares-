@@ -1,9 +1,6 @@
 package UsoVehiculos;
 
 import java.util.Scanner;
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class main {
     static boolean finalizado = false;
@@ -27,7 +24,7 @@ public class main {
             System.out.println("6. Mostrar Vehículos");
             System.out.println("7. Mostrar Lista de Espera");
             System.out.println("8. Modificaciones");
-            System.out.println("9. deshacer última acción");
+            System.out.println("9. Deshacer última acción");
             System.out.println("10. Finalizar");
             System.out.println("--------------------------------------");
             System.out.print("Ingrese una opción: ");
@@ -88,6 +85,10 @@ public class main {
                 case 6:
                     System.out.println("\nMostrando Vehículos");
                     Vehiculos.Mostrar();
+                    break;
+                case 7:
+                    System.out.println("\nMostrando Lista de Espera");
+                    Reservaciones.mostrarListaDeEspera();
                     break;
                 case 8:
                 System.out.println("\nGestion de Modificaciones");

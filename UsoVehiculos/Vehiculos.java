@@ -158,7 +158,15 @@ public static void Agregar() {
 }
 
 public static void Eliminar() {
-    System.out.println("\n--------------------------------------");
+    System.out.println("--------------------------------------");
+
+    if (vehiculos.isEmpty()) {
+        System.out.println("No hay vehículos registrados para eliminar.");
+        return;
+    }
+    System.out.println("Mostrando vehículos registrados:\n");
+    Mostrar();
+    System.out.println("--------------------------------------");
     System.out.print("Ingrese el ID del vehículo a eliminar: ");
     int id = sc.nextInt();
 

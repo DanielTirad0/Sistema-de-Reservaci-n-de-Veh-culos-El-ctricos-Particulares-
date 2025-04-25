@@ -7,6 +7,7 @@ import javax.swing.Action;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Queue;
 
 public class Reservaciones {
 
@@ -23,6 +24,8 @@ public class Reservaciones {
     static Scanner input = new Scanner(System.in);
     private static HashMap<Usuario, Vehiculos> reservas = new HashMap<>();
     public static LinkedList<Reservaciones> historialDeReservaciones = new LinkedList<>();
+    public static Queue<Reservaciones> listaDeEspera = new LinkedList<>();
+
     private static class Action {
         String type; 
         Reservaciones reservacion;
@@ -158,7 +161,17 @@ public class Reservaciones {
                 Estacion.vehiculosEnLaEstacion(estacionSeleccionada, diaDeReserva, horaDeReserva);
 
                 if (estacionSeleccionada.getVehiculos().isEmpty()) {
-                    System.out.println("No hay vehículos disponibles en esta estación. Intente con otra estación.");
+                    System.out.print("Desea ser añadido a la lista de espera? (Si/No): ");
+                    String respuesta = input.nextLine();
+                    if (respuesta.equalsIgnoreCase("Si")) {
+                            Reservaciones reservacionEspera = new Reservaciones("En Espera", null, estacionSeleccionada, persona, 0, 0, horaDeReserva, diaDeReserva);
+                            listaDeEspera.add(reservacionEspera);
+                            System.out.println("Usted ha sido añadido a la lista de espera.");
+                            return;
+                    } else {
+                        System.out.println("No se ha realizado ninguna reservación.");
+                        return;
+                    }
                 } else {
                     break; 
                 }
@@ -337,5 +350,26 @@ public class Reservaciones {
             System.out.print("Introduzca un ID válido.\n");
         }
     }
+
+    public static void mostrarListaDeEspera() {
+        if (listaDeEspera.isEmpty()) {
+            System.out.println("No hay usuarios en la lista de espera.");
+            return;
+        }
+
+        System.out.println("----- Lista de Espera -----");
+
+        for (Reservaciones reservacion : listaDeEspera) {
+            System.out.println("--------------------------------------");
+            System.out.println("Usuario: " + reservacion.getUsuario().getName());
+            System.out.println("Número de Estudiante: " + reservacion.getUsuario().getNumeroDeEstudiante());
+            System.out.println("Estación: " + reservacion.getEstacion().getUbicacion());
+            System.out.println("Estado: " + reservacion.getEstado());
+            System.out.println("Hora de Reserva: " + reservacion.getHoraDeReserva() + ":00");
+            System.out.println("Día de Reserva: " + reservacion.getDiaDeReserva());
+        }
+
+        System.out.println("--------------------------------------");
+    }   
 
 }
