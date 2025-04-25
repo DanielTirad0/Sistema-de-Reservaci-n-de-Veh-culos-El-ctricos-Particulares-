@@ -27,7 +27,8 @@ public class main {
             System.out.println("6. Mostrar Vehículos");
             System.out.println("7. Mostrar Lista de Espera");
             System.out.println("8. Modificaciones");
-            System.out.println("9. Finalizar");
+            System.out.println("9. deshacer última acción");
+            System.out.println("10. Finalizar");
             System.out.println("--------------------------------------");
             System.out.print("Ingrese una opción: ");
             press = sc.nextInt();
@@ -99,13 +100,17 @@ public class main {
                 if(opcionModificacion==1){Usuario.ModificaciondeUsuario();}
                 else if(opcionModificacion==2){Vehiculos.ModificaciondeVehiculo();}
                     break;
-                case 9:
+                    case 9:
+                    System.out.println("\nDeshaciendo última acción...");
+                    Reservaciones.Undo();
+                    break; 
+                case 10:
                 System.out.println("Las reservaciones de hoy son:");
                 Reservaciones.mostrarTodasLasReservaciones();
                 System.out.println("\nGracias por usar nuestro servicio. Hasta luego.");
                     finalizado = true;
                     break;
-
+                
                 default:
                     System.out.println("Opción no reconocida. Por favor, intente de nuevo.");
                     break;

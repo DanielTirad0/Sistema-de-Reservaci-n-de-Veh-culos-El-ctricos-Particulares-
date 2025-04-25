@@ -1,6 +1,10 @@
 package UsoVehiculos;
 
 import java.util.Scanner;
+import java.util.Stack;
+
+import javax.swing.Action;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -10,6 +14,7 @@ public class Reservaciones {
     private Estacion estacion;
     private Vehiculos vehiculo; 
     private Usuario usuario;
+    private static Stack<Action> undoStack = new Stack<>(); 
     private double costoPorReservar;
     private double tiempo;
     private int horaDeReserva;
@@ -18,6 +23,15 @@ public class Reservaciones {
     static Scanner input = new Scanner(System.in);
     private static HashMap<Usuario, Vehiculos> reservas = new HashMap<>();
     public static LinkedList<Reservaciones> historialDeReservaciones = new LinkedList<>();
+    private static class Action {
+        String type; 
+        Reservaciones reservacion;
+
+        Action(String type, Reservaciones reservacion) {
+            this.type = type;
+            this.reservacion = reservacion;
+        }
+    }
 
     public Reservaciones(String estado, Vehiculos vehiculo, Estacion estacion, Usuario usuario, double costoPorReservar, double tiempo, int horaDeReserva, String diaDeReserva) {
         this.horaDeReserva = horaDeReserva;  
@@ -214,14 +228,34 @@ public class Reservaciones {
             Reservaciones reservacion = new Reservaciones("Reservado", vehiculoSeleccionado, estacionSeleccionada, persona, costoPorReservar, tiempoUso, horaDeReserva, diaDeReserva);
             historialDeReservaciones.add(reservacion);
             reservas.put(persona, vehiculoSeleccionado);
-
+            undoStack.push(new Action("add", reservacion));
         } catch (Exception e) {
             System.out.println("Ha ocurrido un error inesperado. Intente de nuevo.");
         }
     }
 
     
-
+    public static void Undo() {
+        if (undoStack.isEmpty()) {
+            System.out.println("No hay acciones para deshacer.");
+            return;
+        }
+    
+        Action lastAction = undoStack.pop();
+        Reservaciones reservacion = lastAction.reservacion;
+    
+        if (lastAction.type.equals("add")) {
+            historialDeReservaciones.remove(reservacion);
+            reservas.remove(reservacion.getUsuario());
+            System.out.println("Se ha deshecho la última acción: Reservación añadida eliminada.");
+        } else if (lastAction.type.equals("delete")) {
+            historialDeReservaciones.add(reservacion);
+            reservas.put(reservacion.getUsuario(), reservacion.getVehiculo());
+            reservacion.getUsuario().setSaldo(reservacion.getUsuario().getSaldo() - reservacion.getCostoPorReservar());
+            reservacion.estado = "Reservado";
+            System.out.println("Se ha deshecho la última acción: Reservación eliminada restaurada.");
+        }
+    }
   public static void mostrarTodasLasReservaciones() {
     if (historialDeReservaciones.isEmpty()) {
         System.out.println("No hay reservaciones registradas.");
@@ -248,55 +282,60 @@ public class Reservaciones {
     }
 
     public static void Eliminar() {
-    System.out.println("\n----- Vehículos reservados -----\n");
-
-    if (reservas.isEmpty()) {
-        System.out.print("No hay vehículos reservados actualmente.\n");
-        return;
-    }
-
-    for (Usuario usuario : reservas.keySet()) {
-        Vehiculos vehiculo = reservas.get(usuario);
-        System.out.println("Usuario: " + usuario.getName() + ", Vehículo: " + vehiculo.getVehiculo() + ", ID: " + vehiculo.getId());
-    }
-
-    try {
-        System.out.println("\n¿Cuál reservación desea eliminar?");
-        System.out.print("Introduzca el ID: ");
-        int idVehiculoEliminado = input.nextInt();
-
-        Usuario usuarioAEliminar = null;
-        Vehiculos vehiculoAEliminar = null;
-
+        System.out.println("\n----- Vehículos reservados -----\n");
+    
+        if (reservas.isEmpty()) {
+            System.out.print("No hay vehículos reservados actualmente.\n");
+            return;
+        }
+    
         for (Usuario usuario : reservas.keySet()) {
             Vehiculos vehiculo = reservas.get(usuario);
-            if (vehiculo.getId() == idVehiculoEliminado) {
-                usuarioAEliminar = usuario;
-                vehiculoAEliminar = vehiculo;
-                break;
-            }
+            System.out.println("Usuario: " + usuario.getName() + ", Vehículo: " + vehiculo.getVehiculo() + ", ID: " + vehiculo.getId());
         }
-
-        if (usuarioAEliminar != null && vehiculoAEliminar != null) {
-            for (Reservaciones reservacion : historialDeReservaciones) {
-                if (reservacion.getUsuario().equals(usuarioAEliminar) && reservacion.getVehiculo().equals(vehiculoAEliminar)) {
-                    reservacion.estado = "Cancelado";
-                    double costoReservacion = reservacion.getCostoPorReservar();
-                    usuarioAEliminar.setSaldo(usuarioAEliminar.getSaldo() + costoReservacion);
-                    System.out.println("Se han reembolsado " + costoReservacion + " créditos al usuario " + usuarioAEliminar.getName() + ".");
+    
+        try {
+            System.out.println("\n¿Cuál reservación desea eliminar?");
+            System.out.print("Introduzca el ID: ");
+            int idVehiculoEliminado = input.nextInt();
+    
+            Usuario usuarioAEliminar = null;
+            Vehiculos vehiculoAEliminar = null;
+            Reservaciones reservacionAEliminar = null;
+    
+            for (Usuario usuario : reservas.keySet()) {
+                Vehiculos vehiculo = reservas.get(usuario);
+                if (vehiculo.getId() == idVehiculoEliminado) {
+                    usuarioAEliminar = usuario;
+                    vehiculoAEliminar = vehiculo;
                     break;
                 }
             }
-
-            reservas.remove(usuarioAEliminar);
-            System.out.println("Reservación eliminada exitosamente. El vehículo ahora está disponible para reservar.");
-        } else {
-            System.out.println("No se encontró una reservación con el ID proporcionado.");
+    
+            if (usuarioAEliminar != null && vehiculoAEliminar != null) {
+                for (Reservaciones reservacion : historialDeReservaciones) {
+                    if (reservacion.getUsuario().equals(usuarioAEliminar) && reservacion.getVehiculo().equals(vehiculoAEliminar)) {
+                        reservacionAEliminar = reservacion;
+                        reservacion.estado = "Cancelado";
+                        double costoReservacion = reservacion.getCostoPorReservar();
+                        usuarioAEliminar.setSaldo(usuarioAEliminar.getSaldo() + costoReservacion);
+                        System.out.println("Se han reembolsado " + costoReservacion + " créditos al usuario " + usuarioAEliminar.getName() + ".");
+                        break;
+                    }
+                }
+    
+                reservas.remove(usuarioAEliminar);
+                historialDeReservaciones.remove(reservacionAEliminar);
+                undoStack.push(new Action("delete", reservacionAEliminar));
+    
+                System.out.println("Reservación eliminada exitosamente. El vehículo ahora está disponible para reservar.");
+            } else {
+                System.out.println("No se encontró una reservación con el ID proporcionado.");
+            }
+    
+        } catch (Exception e) {
+            System.out.print("Introduzca un ID válido.\n");
         }
-
-    } catch (Exception e) {
-        System.out.print("Introduzca un ID válido.\n");
     }
-}
 
 }

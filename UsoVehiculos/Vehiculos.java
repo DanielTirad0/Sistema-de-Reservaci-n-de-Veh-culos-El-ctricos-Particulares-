@@ -1,13 +1,15 @@
 package UsoVehiculos;
 
 import java.util.Scanner;
+import java.util.HashMap;
 import java.util.HashSet;
 public class Vehiculos {
 
     private int id;
     private String vehiculo;
     private Estacion lugar;
-    private Usuario dueño;
+    private String ownerName; 
+    private static HashMap<String, Integer> ownerVehicleCount = new HashMap<>(); 
     static HashSet<Vehiculos> vehiculos= new HashSet<>();
     static Scanner sc=new Scanner(System.in);
 
@@ -23,14 +25,9 @@ public int getId(){
     return this.id;
 }
 
-public Usuario getDueño() {
-    return dueño;
+public String getOwnerName() {
+    return ownerName;
 }
-
-public void setDueño(Usuario dueño) {
-    this.dueño = dueño;
-}
-
 public String getVehiculo(){
     return this.vehiculo;
 }
@@ -45,6 +42,9 @@ public Estacion getLugar(){
 
 public void setId(int id){
     this.id=id;
+}
+public void setOwnerName(String ownerName) {
+    this.ownerName = ownerName;
 }
 public void setVehiculos(String vehiculos){
     this.vehiculo=vehiculos;
@@ -78,14 +78,25 @@ public static void Agregar() {
         System.out.print("Ingrese el ID del vehículo: ");
         int id;
         try {
-             id = sc.nextInt();
+            id = sc.nextInt();
             if (id <= 0) {
                 System.out.println("ID inválido. Debe ser un número positivo.");
                 return;
             }
         } catch (Exception e) {
             System.out.println("ID inválido. Debe ser un número entero.");
-            sc.next(); 
+            sc.next();
+            return;
+        }
+
+        System.out.print("Ingrese el nombre del dueño del vehículo: ");
+        sc.nextLine(); 
+        String ownerName = sc.nextLine();
+
+        
+        int currentCount = ownerVehicleCount.getOrDefault(ownerName, 0);
+        if (currentCount >= 2) {
+            System.out.println("El dueño " + ownerName + " ya tiene dos vehículos asignados. No puede tener más.");
             return;
         }
 
@@ -104,11 +115,11 @@ public static void Agregar() {
                 if (tipo < 1 || tipo > 3) {
                     System.out.println("Opción no válida, por favor intente de nuevo.");
                 } else {
-                    break; 
+                    break;
                 }
             } catch (Exception e) {
                 System.out.println("Entrada no válida. Por favor, introduzca un número entre 1 y 3.");
-                sc.nextLine(); 
+                sc.nextLine();
             }
         }
 
@@ -127,21 +138,21 @@ public static void Agregar() {
         System.out.println("\n--------------------------------------");
         Estacion lugar = Estacion.escogaestacion();
 
-        if (lugar.getCapacidad() <= 0 ) { 
-            System.out.println("Capacidad máxima alcanzada en esta estación. Elija otra estación disponible.");
-            System.out.println("--------------------------------------");
+        if (lugar == null) {
+            System.out.println("No se seleccionó una estación válida.");
             return;
         }
 
         Vehiculos vehiculo1 = new Vehiculos(id, vehiculo, lugar);
-        if (vehiculos.add(vehiculo1)) {
-            lugar.getVehiculos().add(vehiculo1);
+        vehiculo1.setOwnerName(ownerName); 
+        if (lugar.agregarVehiculo(vehiculo1)) {
+            vehiculos.add(vehiculo1);
+
+            ownerVehicleCount.put(ownerName, currentCount + 1);
+
             System.out.println("Vehículo agregado con éxito.");
-            System.out.println("--------------------------------------");
-            lugar.setCapacidad(lugar.getCapacidad() - 1);
         } else {
-            System.out.println("El vehículo con ID " + id + " ya existe y no se puede agregar.");
-            System.out.println("--------------------------------------");
+            System.out.println("No se pudo agregar el vehículo. Capacidad máxima alcanzada.");
         }
     }
 }
@@ -153,9 +164,16 @@ public static void Eliminar() {
 
     for (Vehiculos vehiculo : vehiculos) {
         if (vehiculo.getId() == id) {
+            String ownerName = vehiculo.getOwnerName(); 
             vehiculos.remove(vehiculo);
-            vehiculo.getLugar().getVehiculos().remove(vehiculo); 
-            vehiculo.getLugar().setCapacidad(vehiculo.getLugar().getCapacidad() + 1); 
+
+            vehiculo.getLugar().removerVehiculo(vehiculo);
+
+            int currentCount = ownerVehicleCount.getOrDefault(ownerName, 0);
+            if (currentCount > 0) {
+                ownerVehicleCount.put(ownerName, currentCount - 1);
+            }
+
             System.out.println("Vehículo con ID " + id + " eliminado con éxito.");
             System.out.println("--------------------------------------\n");
             return;
@@ -165,10 +183,9 @@ public static void Eliminar() {
     System.out.println("No se encontró ningún vehículo con el ID " + id + ".");
     System.out.println("--------------------------------------");
 }
-
 public static void Mostrar(){
     for (Vehiculos vehiculo: vehiculos){
-    System.out.println("ID: "+vehiculo.getId()+", Vehiculo: "+ vehiculo.getVehiculo()+", Estacion: "+vehiculo.getLugar().getUbicacion());
+    System.out.println("ID: "+vehiculo.getId()+", Vehiculo: "+ vehiculo.getVehiculo()+", Estacion: "+vehiculo.getLugar().getUbicacion()+", Dueño: "+vehiculo.getOwnerName());
     }
 }
 public static void ModificaciondeVehiculo() {

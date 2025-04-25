@@ -36,6 +36,12 @@ public class Estacion {
         return this.capacidad;
     }
 
+    public int getVehiculosActuales() {
+        return this.vehiculos.size(); 
+    }
+    public int getEspaciosDisponibles() {
+        return this.capacidad - this.vehiculos.size(); 
+    }
     public String getUbicacion() {
         return this.ubicacion;
     }
@@ -67,33 +73,54 @@ public class Estacion {
         estaciones.add(new Estacion("Edificio de Administración de Empresas", 45));
     }
     
-    public static Estacion escogaestacion() {
-    Scanner sc = new Scanner(System.in);
-    int index = 1;
-    System.out.println("Por favor, elija una estación:");
-    for (Estacion estacion : estaciones) {
-        System.out.println(index + ". " + estacion.getUbicacion() + " (Capacidad: " + estacion.getCapacidad() + ")");
-        index++;
-    }
-
-    System.out.print("\nOpción: ");
-    int choice = sc.nextInt();
-    while(choice < 1 || choice > estaciones.size()) {
-        System.out.println("Opción no válida. Intente de nuevo.");
-        System.out.print("Opción: ");
-        choice = sc.nextInt();}
-    if (choice > 0 && choice <= estaciones.size()) {
-        int i = 1;
-        for (Estacion estacion : estaciones) {
-            if (i == choice) {
-                return estacion;
-            }
-            i++;
+    public boolean agregarVehiculo(Vehiculos vehiculo) {
+        if (vehiculos.size() < capacidad) {
+            vehiculos.add(vehiculo);
+            return true; 
+        } else {
+            System.out.println("No hay espacio disponible en la estación " + ubicacion + ".");
+            return false; 
         }
     }
-    
-    return null;
-}
+
+    public boolean removerVehiculo(Vehiculos vehiculo) {
+        if (vehiculos.remove(vehiculo)) {
+            return true; 
+        } else {
+            System.out.println("El vehículo no se encuentra en la estación " + ubicacion + ".");
+            return false; 
+        }
+    }
+    public static Estacion escogaestacion() {
+        Scanner sc = new Scanner(System.in);
+        int index = 1;
+        System.out.println("Por favor, elija una estación:");
+        for (Estacion estacion : estaciones) {
+            System.out.println(index + ". " + estacion.getUbicacion() + " (Capacidad: " + estacion.getCapacidad() +
+                    ", Espacios disponibles: " + estacion.getEspaciosDisponibles() + ")");
+            index++;
+        }
+
+        System.out.print("\nOpción: ");
+        int choice = sc.nextInt();
+        while (choice < 1 || choice > estaciones.size()) {
+            System.out.println("Opción no válida. Intente de nuevo.");
+            System.out.print("Opción: ");
+            choice = sc.nextInt();
+        }
+        if (choice > 0 && choice <= estaciones.size()) {
+            int i = 1;
+            for (Estacion estacion : estaciones) {
+                if (i == choice) {
+                    return estacion;
+                }
+                i++;
+            }
+        }
+
+        return null;
+    }
+
 
 public static void vehiculosEnLaEstacion(Estacion ubicacion, String diaConsulta, int horaConsulta) {
     Set<Vehiculos> vehiculos = ubicacion.getVehiculos();

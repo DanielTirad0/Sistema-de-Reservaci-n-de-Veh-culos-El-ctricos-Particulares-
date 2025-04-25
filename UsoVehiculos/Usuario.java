@@ -10,7 +10,7 @@ public class Usuario {
     private double saldo;
     static HashSet<Usuario> usuarios = new HashSet();
 
-    //contructor
+    //contructors
 
     Usuario(int numerodeestudiante, String name, String email, String telefono, double saldo){
         this.numerodeestudiante=numerodeestudiante;
