@@ -3,8 +3,9 @@ package UsoVehiculos;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.HashSet;
+//clase que contiene la logica de los vehiculos y sus metodos.
 public class Vehiculos {
-
+    //variables que contienen los atributos de la clase vehiculos y otros data structures.
     private int id;
     private String vehiculo;
     private Estacion lugar;
@@ -57,7 +58,8 @@ public void setLugar(Estacion lugar){
 
  
 //methods
-// Override equals and hashCode
+// Override 
+// metodo para comparar dos objetos vehiculos y determinar si son iguales o no.
 @Override
 public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -70,6 +72,7 @@ public boolean equals(Object obj) {
 public int hashCode() {
     return Integer.hashCode(id);
 }
+//metodo para agregar vehiculos a la estacion y verificar si el dueño ya tiene dos vehiculos asignados.
 public static void Agregar() {
     System.out.print("¿Cuántos vehículos desea agregar? ");
     int cantidad = sc.nextInt();
@@ -157,6 +160,7 @@ public static void Agregar() {
     }
 }
 
+//metodo para eliminar vehiculos de la estacion y verificar si el dueño tiene vehiculos asignados.
 public static void Eliminar() {
     System.out.println("--------------------------------------");
 
@@ -191,11 +195,13 @@ public static void Eliminar() {
     System.out.println("No se encontró ningún vehículo con el ID " + id + ".");
     System.out.println("--------------------------------------");
 }
+//metodo para mostrar los vehiculos registrados en la estacion.
 public static void Mostrar(){
     for (Vehiculos vehiculo: vehiculos){
     System.out.println("ID: "+vehiculo.getId()+", Vehiculo: "+ vehiculo.getVehiculo()+", Estacion: "+vehiculo.getLugar().getUbicacion()+", Dueño: "+vehiculo.getOwnerName());
     }
 }
+//metodo para modificar los vehiculos registrados.
 public static void ModificaciondeVehiculo() {
     Scanner sc = new Scanner(System.in);
     if(vehiculos.isEmpty()) {

@@ -2,7 +2,9 @@ package UsoVehiculos;
 import java.util.HashSet;
 import java.util.Scanner;
 
+//clase que contiene los atributos y metodos de la clase usuario.
 public class Usuario {
+    //atributos de la clase usuario y estructuras de datos.
     private int numerodeestudiante;
     private String name;
     private String email;
@@ -11,7 +13,6 @@ public class Usuario {
     static HashSet<Usuario> usuarios = new HashSet();
 
     //contructors
-
     Usuario(int numerodeestudiante, String name, String email, String telefono, double saldo){
         this.numerodeestudiante=numerodeestudiante;
         this.name=name;
@@ -21,7 +22,6 @@ public class Usuario {
     }
 
     //getters
-
     public int getNumeroDeEstudiante(){
     return this.numerodeestudiante;
     }
@@ -54,7 +54,7 @@ public class Usuario {
         this.saldo=saldo; 
     }
     //methods
-
+    //metodo para mostrar los usuarios disponibles.
     static void MostrarUsuario(){
         if (usuarios.isEmpty()) {
             System.out.println("No hay usuarios disponibles.");
@@ -73,7 +73,7 @@ public class Usuario {
         }
         
       }  
-
+      //metodo para agregar usuarios a la lista de usuarios.
       static Usuario AgregarUsuario() {
         Usuario usuario = null;
         try {
@@ -117,7 +117,7 @@ public class Usuario {
         return usuario;
     }
     
-
+    //metodo para eliminar usuarios de la lista de usuarios.
     static void EliminarUsuario() {
         Scanner sc = new Scanner(System.in);
 
@@ -249,7 +249,8 @@ public class Usuario {
     }
     
 
-        // override equals and hashcode
+        // override 
+        // equals y hashCode para comparar usuarios por su número de estudiante.
         @Override
         public boolean equals(Object obj) {
             if (this == obj) return true;
