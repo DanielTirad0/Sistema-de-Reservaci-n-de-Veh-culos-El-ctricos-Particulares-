@@ -420,14 +420,18 @@ public class Reservaciones {
         System.out.println("\n----- Reservaciones Disponibles -----");
         
         mostrarTodasLasReservaciones();
+
+        System.out.print("\nIngrese el número de estudiante del usuario de la reservación que desea modificar: ");
+        int numeroDeEstudiante = sc.nextInt();
+        sc.nextLine();
     
-        System.out.print("\nIngrese el ID del vehículo de la reservación que desea modificar: ");
+        System.out.print("Ingrese el ID del vehículo de la reservación que desea modificar: ");
         int idVehiculo = sc.nextInt();
         sc.nextLine(); 
     
         Reservaciones reservacionSeleccionada = null;
         for (Reservaciones reservacion : historialDeReservaciones) {
-            if (reservacion.getVehiculo().getId() == idVehiculo) {
+            if (reservacion.getVehiculo().getId() == idVehiculo && reservacion.getUsuario().getNumeroDeEstudiante() == numeroDeEstudiante) {
                 reservacionSeleccionada = reservacion;
                 break;
             }
