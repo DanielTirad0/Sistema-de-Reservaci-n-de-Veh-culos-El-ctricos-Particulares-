@@ -112,8 +112,7 @@ public class Reservaciones {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-
+  
     // Methods
     public static void Agregar() {
         try {
@@ -553,6 +552,130 @@ public class Reservaciones {
         } else {
             System.out.println("Reservación modificada con éxito.");
         }
+    }
+
+    public static void modificarListaDeEspera() {
+        if (listaDeEspera.isEmpty()) {
+            System.out.println("No hay usuarios en la lista de espera.");
+            return;
+        }
+
+        mostrarListaDeEspera();
+
+        System.out.print("\nIngrese el número de estudiante del usuario que desea modificar: ");
+        int numeroDeEstudiante = input.nextInt();
+        input.nextLine(); 
+
+        Reservaciones reservacionSeleccionada = null;
+        for (Reservaciones reservacion : listaDeEspera) {
+            if (reservacion.getUsuario().getNumeroDeEstudiante() == numeroDeEstudiante) {
+                reservacionSeleccionada = reservacion;
+                break;
+            }
+        }
+
+        if (reservacionSeleccionada == null) {
+            System.out.println("No se encontró un usuario con el número de estudiante proporcionado en la lista de espera.");
+            return;
+        }
+
+        System.out.println("Que desea Modificar?");
+        System.out.println("1. Nombre");
+        System.out.println("2. Numero de Estudiante");
+        System.out.println("3. Estación");
+        System.out.println("4. Hora de Reserva");
+        System.out.println("5. Día de Reserva");
+        System.out.println("===============================");
+        System.out.print("Su opcion por favor: ");
+        int opcionespecifica = input.nextInt();
+        input.nextLine();
+
+        if(opcionespecifica==1){
+            System.out.println("Nombre de Usuario: " + reservacionSeleccionada.getUsuario().getName());
+            System.out.print("Nombre a modificar: ");
+            String name= input.nextLine();
+            reservacionSeleccionada.getUsuario().setName(name);
+            System.out.println("Nombre modificado con éxito.");
+
+         } else if (opcionespecifica == 2) {
+            System.out.println("Número de Estudiante actual: " + reservacionSeleccionada.getUsuario().getNumeroDeEstudiante());
+            System.out.print("Número de Estudiante a modificar: ");
+            int nuevoNumero = input.nextInt();
+            boolean numeroExistente = false;
+            for (Usuario usuario : Usuario.usuarios) {
+                if (usuario.getNumeroDeEstudiante() == nuevoNumero) {
+                    numeroExistente = true;
+                    break;
+                }
+            }
+        
+            if (numeroExistente) {
+                System.out.println("Error: El número de estudiante " + nuevoNumero + " ya está en uso. No se puede modificar.");
+            } else {
+                reservacionSeleccionada.getUsuario().setNumeroDeEstudiante(nuevoNumero);
+                System.out.println("Número de estudiante modificado con éxito.");
+            }
+            
+        } else if(opcionespecifica == 3) {
+            System.out.println("Estación actual: " + reservacionSeleccionada.getEstacion().getUbicacion());
+            System.out.println("\nEstaciones disponibles:");
+            for (Estacion estacion : Estacion.estaciones) { 
+                System.out.println("- " + estacion.getUbicacion());
+            }
+        
+            System.out.print("Ingrese la nueva estación: ");
+            String nuevaEstacion = input.nextLine();
+        
+            Estacion estacionSeleccionada = null;
+            for (Estacion estacion : Estacion.estaciones) {
+                if (estacion.getUbicacion().equalsIgnoreCase(nuevaEstacion)) {
+                    estacionSeleccionada = estacion;
+                    break;
+                }
+            }
+        
+            if (estacionSeleccionada == null) {
+                System.out.println("La estación ingresada no es válida. Por favor, seleccione una estación de la lista.");
+                return;
+            }
+
+            reservacionSeleccionada.setEstacion(estacionSeleccionada);
+            System.out.println("Estación modificada con éxito.");
+
+        } else if(opcionespecifica==4){
+            System.out.println("Hora de Reserva actual: " + reservacionSeleccionada.getHoraDeReserva() + ":00");
+            System.out.print("Ingrese la nueva hora de reserva (7:00 AM - 18:00 PM): ");
+            int nuevaHora = input.nextInt();
+            input.nextLine();
+    
+            if (nuevaHora < 7 || nuevaHora > 18) {
+                System.out.println("Hora no válida. Por favor, introduzca una hora entre 7:00 AM y 6:00 PM.");
+                return;
+            }
+    
+            reservacionSeleccionada.setHoraDeReserva(nuevaHora);
+            System.out.println("Hora de reserva modificada con éxito.");
+        } else if(opcionespecifica==5){
+            System.out.println("Día de Reserva actual: " + reservacionSeleccionada.getDiaDeReserva());
+            System.out.print("Ingrese el nuevo día de reserva (Lunes a Viernes): ");
+            String nuevoDia = input.nextLine();
+    
+            if (!nuevoDia.equalsIgnoreCase("Lunes") &&
+                !nuevoDia.equalsIgnoreCase("Martes") &&
+                !nuevoDia.equalsIgnoreCase("Miércoles") &&
+                !nuevoDia.equalsIgnoreCase("Jueves") &&
+                !nuevoDia.equalsIgnoreCase("Viernes")) {
+                System.out.println("Día no válido. Por favor, introduzca un día entre Lunes y Viernes.");
+                return;
+            }
+    
+            reservacionSeleccionada.setDiaDeReserva(nuevoDia);
+            System.out.println("Día de reserva modificado con éxito.");
+        } else {
+            System.out.println("Opción no válida.");
+        }
+
+       
     }
 
 }

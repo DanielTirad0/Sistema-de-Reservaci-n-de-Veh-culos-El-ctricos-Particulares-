@@ -63,6 +63,10 @@ public class Estacion {
         this.tiempoUso = tiempoUso;
     }
 
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
     static {
         estaciones.add(new Estacion("Edificio Stefani", 40));
         estaciones.add(new Estacion("Centro de Estudiantes", 90));

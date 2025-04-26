@@ -91,34 +91,37 @@ public class main {
                     Reservaciones.mostrarListaDeEspera();
                     break;
                 case 8:
-                System.out.println("\nGestión de Modificaciones");
-    System.out.println("--------------------------------------");
-    System.out.println("1. Modificar Usuario");
-    System.out.println("2. Modificar Vehículo");
-    System.out.println("3. Modificar Reservación");
-    System.out.println("--------------------------------------");
-    System.out.print("Seleccione una opción: ");
-    int opcionModificacion = sc.nextInt();
-    if (opcionModificacion == 1) {
-        Usuario.ModificaciondeUsuario();
-    } else if (opcionModificacion == 2) {
-        Vehiculos.ModificaciondeVehiculo();
-    } else if (opcionModificacion == 3) {
-        Reservaciones.ModificaciondeReservacion();
-    } else {
-        System.out.println("Opción no válida.");
-    }
-    break;
-                    case 9:
+                    System.out.println("\nGestión de Modificaciones");
+                    System.out.println("--------------------------------------");
+                    System.out.println("1. Modificar Usuario");
+                    System.out.println("2. Modificar Vehículo");
+                    System.out.println("3. Modificar Reservación");
+                    System.out.println("4. Modificar Lista de Espera");
+                    System.out.println("--------------------------------------");
+                    System.out.print("Seleccione una opción: ");
+                    int opcionModificacion = sc.nextInt();
+                    if (opcionModificacion == 1) {
+                        Usuario.ModificaciondeUsuario();
+                    } else if (opcionModificacion == 2) {
+                        Vehiculos.ModificaciondeVehiculo();
+                    } else if (opcionModificacion == 3) {
+                        Reservaciones.ModificaciondeReservacion();
+                    } else if (opcionModificacion==4){
+                        Reservaciones.modificarListaDeEspera();
+                    } else {
+                        System.out.println("Opción no válida.");
+                    }
+                    break;
+                case 9:
                     System.out.println("\nDeshaciendo última acción...");
                     Reservaciones.Undo();
                     break; 
                 case 10:
-                System.out.println("Las reservaciones de hoy son:");
-                Reservaciones.mostrarTodasLasReservaciones();
-                System.out.println("\nGracias por usar nuestro servicio. Hasta luego.");
-                    finalizado = true;
-                    break;
+                    System.out.println("Las reservaciones de hoy son:");
+                    Reservaciones.mostrarTodasLasReservaciones();
+                    System.out.println("\nGracias por usar nuestro servicio. Hasta luego.");
+                        finalizado = true;
+                        break;
                 
                 default:
                     System.out.println("Opción no reconocida. Por favor, intente de nuevo.");
