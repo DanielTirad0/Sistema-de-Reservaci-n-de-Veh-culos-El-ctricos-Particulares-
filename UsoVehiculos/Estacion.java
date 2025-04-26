@@ -59,8 +59,6 @@ public class Estacion {
         this.capacidad = capacidad;
     }
 
-
-    // Setter para tiempoUso
     public void setTiempoUso(double tiempoUso) {
         this.tiempoUso = tiempoUso;
     }
@@ -129,8 +127,7 @@ public static void vehiculosEnLaEstacion(Estacion ubicacion, String diaConsulta,
         System.out.println("No hay vehículos disponibles en esta estación.");
         return;
     }
-
-    // Preguntar tiempo de uso
+   
     while (true) {
         try {
             System.out.print("Ingrese el tiempo estimado de uso en horas (máximo 6): ");

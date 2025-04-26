@@ -24,7 +24,7 @@ public class main {
             System.out.println("6. Mostrar Vehículos");
             System.out.println("7. Mostrar Lista de Espera");
             System.out.println("8. Modificaciones");
-            System.out.println("9. Deshacer última acción");
+            System.out.println("9. Deshacer última acción en la lista de reservaciones");
             System.out.println("10. Finalizar");
             System.out.println("--------------------------------------");
             System.out.print("Ingrese una opción: ");
@@ -91,16 +91,24 @@ public class main {
                     Reservaciones.mostrarListaDeEspera();
                     break;
                 case 8:
-                System.out.println("\nGestion de Modificaciones");
-                System.out.println("--------------------------------------");
-                System.out.println("1. Modificar Usuario");
-                System.out.println("2. Modificar Vehículo");
-                System.out.println("--------------------------------------");
-                System.out.print("Seleccione una opción: ");
-                int opcionModificacion = sc.nextInt();
-                if(opcionModificacion==1){Usuario.ModificaciondeUsuario();}
-                else if(opcionModificacion==2){Vehiculos.ModificaciondeVehiculo();}
-                    break;
+                System.out.println("\nGestión de Modificaciones");
+    System.out.println("--------------------------------------");
+    System.out.println("1. Modificar Usuario");
+    System.out.println("2. Modificar Vehículo");
+    System.out.println("3. Modificar Reservación");
+    System.out.println("--------------------------------------");
+    System.out.print("Seleccione una opción: ");
+    int opcionModificacion = sc.nextInt();
+    if (opcionModificacion == 1) {
+        Usuario.ModificaciondeUsuario();
+    } else if (opcionModificacion == 2) {
+        Vehiculos.ModificaciondeVehiculo();
+    } else if (opcionModificacion == 3) {
+        Reservaciones.ModificaciondeReservacion();
+    } else {
+        System.out.println("Opción no válida.");
+    }
+    break;
                     case 9:
                     System.out.println("\nDeshaciendo última acción...");
                     Reservaciones.Undo();

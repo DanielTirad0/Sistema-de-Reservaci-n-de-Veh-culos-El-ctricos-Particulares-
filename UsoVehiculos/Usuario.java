@@ -157,6 +157,10 @@ public class Usuario {
 
         static void ModificaciondeUsuario(){
             Scanner sc = new Scanner(System.in);
+            if(usuarios.isEmpty()){
+                System.out.println("No hay usuarios disponibles para modificar.");
+                return;
+            }
             try{
                 System.out.println("Mostrando Usuarios Para Modificar");
                 MostrarUsuario();

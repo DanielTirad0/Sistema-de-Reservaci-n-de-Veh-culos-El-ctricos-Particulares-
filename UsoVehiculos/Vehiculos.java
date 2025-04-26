@@ -198,6 +198,10 @@ public static void Mostrar(){
 }
 public static void ModificaciondeVehiculo() {
     Scanner sc = new Scanner(System.in);
+    if(vehiculos.isEmpty()) {
+        System.out.println("No hay vehículos registrados para modificar.");
+        return;
+    }
     try {
         System.out.println("Mostrando vehículos para modificar:\n");
         Mostrar(); 
