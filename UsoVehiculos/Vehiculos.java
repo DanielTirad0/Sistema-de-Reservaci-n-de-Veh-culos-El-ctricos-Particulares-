@@ -10,8 +10,15 @@ public class Vehiculos {
     private String vehiculo;
     private Estacion lugar;
     private String ownerName; 
+
+    // HashMap para almacenar la cantidad de vehículos por dueño
+    // Se utiliza un HashMap para almacenar la cantidad de vehículos por dueño, donde la clave es el nombre del dueño y el valor es la cantidad de vehículos.
     private static HashMap<String, Integer> ownerVehicleCount = new HashMap<>(); 
+
+    // HashSet para almacenar los vehículos registrados
+    // Se utiliza un HashSet para evitar duplicados y permitir operaciones eficientes de búsqueda y eliminación.
     static HashSet<Vehiculos> vehiculos= new HashSet<>();
+
     static Scanner sc=new Scanner(System.in);
 
 //contructor
